@@ -6,10 +6,10 @@ string is a string
 number is a number (integer or double)
 methodname is the name of a method
 vars ::= [var (`,` var)* ] list of variables
-type::= `STRING` | `NUMBER` | built-in datatypes 
+type::= `STRING` | `NUMBER` | `BOOLEAN` built-in datatypes 
 `(` types `)` `RETURNS` type higher-order function type
 types::= [type (`,` type)*] list of types
-op ::= `+` | `-` | `*` | `/` arithmetic operations
+op ::= `+` | `-` | `*` | `/` | `&&` | `||` | `<` arithmetic operations
 exp ::= var | string | number variables, strings, and numbers are expressions
 	exp op exp arithmetic expressions
 	`PRINT` exp prints to the terminal, returns a number
@@ -31,14 +31,18 @@ Target Language: C
 
 ## Tokens ##
 Possible Tokens:
+[](covers the var, string, number and types)
 - IdentifierToken(String)
+- StringToken(String)
 - IntToken(int)
 - DoubleToken(double)
 - NumberToken(int)
 - BooleanToken(boolean)
+[](covers methoddef)
 - leftParenToken
-- VardecToken
+- DEFINEToken
 - RightParenToken
+[](covers ops)
 - TrueToken
 - FalseToken
 - WhileToken
@@ -48,3 +52,9 @@ Possible Tokens:
 - LogicalAndToken
 - LogicalOrToken
 - LessThanToken
+- AsteriskToken
+- FowardSlashToken
+- IfToken
+- ElseToken
+
+
