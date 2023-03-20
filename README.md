@@ -31,18 +31,18 @@ Target Language: C
 
 ## Tokens ##
 Possible Tokens:
-[](covers the var, string, number and types)
+<!--- covers the var, string, number and types -->
 - IdentifierToken(String)
 - StringToken(String)
 - IntToken(int)
 - DoubleToken(double)
 - NumberToken(int)
 - BooleanToken(boolean)
-[](covers methoddef)
+<!--- covers methoddef -->
 - leftParenToken
 - DEFINEToken
 - RightParenToken
-[](covers ops)
+<!--- covers ops -->
 - TrueToken
 - FalseToken
 - WhileToken
