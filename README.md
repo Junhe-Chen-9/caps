@@ -28,3 +28,23 @@ Program ::= methoddef* exp entry point
 Object language (Our language): Caps
 Metalanguage : Java
 Target Language: C
+
+## Tokens ##
+Possible Tokens:
+- IdentifierToken(String)
+- IntToken(int)
+- DoubleToken(double)
+- NumberToken(int)
+- BooleanToken(boolean)
+- leftParenToken
+- VardecToken
+- RightParenToken
+- TrueToken
+- FalseToken
+- WhileToken
+- SingleEqualsToken
+- PlusToken
+- MinusToken
+- LogicalAndToken
+- LogicalOrToken
+- LessThanToken
