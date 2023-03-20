@@ -36,17 +36,16 @@ Possible Tokens:
 - StringToken(String)
 - IntToken(int)
 - DoubleToken(double)
-- NumberToken(int)
+- NumberToken(int or double) <!--- leave this alone for now -->
 - BooleanToken(boolean)
 <!--- covers methoddef -->
 - leftParenToken
-- DEFINEToken
+- DefineToken
 - RightParenToken
 <!--- covers ops -->
 - TrueToken
 - FalseToken
 - WhileToken
-- SingleEqualsToken
 - PlusToken
 - MinusToken
 - LogicalAndToken
@@ -56,5 +55,10 @@ Possible Tokens:
 - FowardSlashToken
 - IfToken
 - ElseToken
-
+- RetrunsToken
+<!-- covers assign -->
+- IsToken
+<!-- covers blocks -->
+- LeftBracketToken
+- RightBracketToken
 
