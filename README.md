@@ -36,29 +36,29 @@ Possible Tokens:
 - StringToken(String)
 - IntToken(int)
 - DoubleToken(double)
-- NumberToken(int or double) <!--- leave this alone for now -->
-- BooleanToken(boolean)
+- NumberToken : 20 <!--- leave this alone for now -->
+- BooleanToken : 21
 <!--- covers methoddef -->
-- leftParenToken
-- DefineToken
-- RightParenToken
+- leftParenToken : 0
+- DefineToken : 1
+- RightParenToken : 2
 <!--- covers ops -->
-- TrueToken
-- FalseToken
-- WhileToken
-- PlusToken
-- MinusToken
-- LogicalAndToken
-- LogicalOrToken
-- LessThanToken
-- AsteriskToken
-- FowardSlashToken
-- IfToken
-- ElseToken
-- RetrunsToken
+- TrueToken : 3
+- FalseToken : 4
+- WhileToken : 5
+- PlusToken : 6
+- MinusToken : 7
+- LogicalAndToken : 8
+- LogicalOrToken : 9 
+- LessThanToken : 10
+- AsteriskToken : 11
+- FowardSlashToken : 12
+- IfToken : 13 
+- ElseToken : 14
+- RetrunsToken : 15
 <!-- covers assign -->
-- IsToken
+- IsToken : 16
 <!-- covers blocks -->
-- LeftBracketToken
-- RightBracketToken
+- LeftBracketToken : 17
+- RightBracketToken : 18
 
