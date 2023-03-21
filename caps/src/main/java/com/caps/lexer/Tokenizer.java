@@ -9,6 +9,7 @@ public class Tokenizer {
     private int p; // posistion where we are at right now
     private final HashMap<String,Token> SYMBOLS = new HashMap<>();
     private final HashMap<String,Token> KEYWORDS = new HashMap<>();
+    private boolean isFlag;
     public Token tokenizeSymbol(){
         /* to get add more symbol easier in the future we can use hash map
         if(input.startsWith("(")){
@@ -56,6 +57,7 @@ public class Tokenizer {
     public Tokenizer(final String s){
         this.input = s;
         p = 0;
+        isFlag = false;
         // add SYMBOLS
         SYMBOLS.put("(",new LeftParenToken());
         SYMBOLS.put(")",new RightParenToken());
@@ -89,8 +91,13 @@ public class Tokenizer {
                 return new NumberToken();
             }else if(name.equals("BOOLEAN")){
                 return new BooleanToken();
-            }else{
-                return new IdentifierToken(name);
+            }else if(name.equals("IS")){
+                // this is a tricky situation
+                // make sure we are tokening next token as string or as value
+                isFlag = true;
+                return new IsToken();
+            } else{
+                return isFlag ? new StringToken(name) : new IdentifierToken(name);
             }
             //TODO add more else if to cover all tokens
         }else{

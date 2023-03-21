@@ -32,6 +32,15 @@ public class LexerTest {
         };
         assertArrayEquals(tokens,expeted);
     }
-    
+    @Test
+    public void testTokenizeStmt() throws TokenizerException {
+        final Token[] tokens = Tokenizer.tokenize("s IS stringvalue");
+        final Token[] expeted = new Token[]{
+                new IdentifierToken("s"),
+                new IsToken(),
+                new StringToken("stringvalue")
+        };
+        assertArrayEquals(tokens,expeted);
+    }
 }
 
