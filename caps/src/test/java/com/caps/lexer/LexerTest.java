@@ -12,7 +12,6 @@ public class LexerTest {
                 new IdentifierToken("foo"));
     }
 
-    /*
 
     @Test
     public void testTokenizeIdentifier(){
@@ -21,7 +20,6 @@ public class LexerTest {
         assertArrayEquals(tokens,expeted);
     }
 
-    */
     
 }
 

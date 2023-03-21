@@ -8,7 +8,32 @@ public class Tokenizer {
         p = 0;
     }
     public Token tokenizeIdentifierOrReservedWord(){
-        return null;
+        String name = "";
+        if (Character.isLetter(input.charAt(p))){
+            name +=input.charAt(p);
+            p ++;
+            while(Character.isLetterOrDigit(input.charAt(p))){
+                // keep scanning
+                name += input.charAt(p);
+                p ++;
+            }
+
+            // now you read the identifier or reserved word
+            // check against all our tokens possibility
+            if(name.equals("NUMBER")){
+                return new NumberToken();
+            }else if(name.equals("BOOLEAN")){
+                return new BooleanToken();
+            }else{
+                return new IdentifierToken(name);
+            }
+            //TODO add more else if to cover all tokens
+        }else{
+            return null;// not identifier or reserved World
+        }
+
+
+
     }
     public Token tokenizeNumber(){
         int temp = p;

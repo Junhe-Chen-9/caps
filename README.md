@@ -16,7 +16,7 @@ exp ::= var | string | number variables, strings, and numbers are expressions
 	`CALL` exp `(` exps `)` calls higher-order function with parameters
 `(` vars `)` `EXECUTES` exp defines higher-order functions
 `(` exp `)` parenthesized expressions 
-stmt ::= var `IS` exp`;` | `RETURN` exp`;` | exp`;` | 
+stmt ::= var `IS` exp`;` | `RETURNS` exp`;` | exp`;` | 
 `{` stmt* `}`|  statement blocks 
 `IF` `(` exp `)` stmt `ELSE` `stmt` | if-else statements
 `WHILE` `(` exp `)` stmt  loop statements
@@ -38,6 +38,7 @@ Possible Tokens:
 - DoubleToken(double)
 - NumberToken : 20 <!--- leave this alone for now -->
 - BooleanToken : 21
+- StrToken : 22
 <!--- covers methoddef -->
 - leftParenToken : 0
 - DefineToken : 1

@@ -3,6 +3,7 @@ package com.caps.lexer;
 public class StringToken implements Token{
     public final String value;
 
+    //TODO: STRTOKEN
     public StringToken(String s){
         value = s;
     }
