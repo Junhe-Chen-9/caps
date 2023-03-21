@@ -8,7 +8,7 @@ public class IntToken implements Token{
     }
     @Override
     public boolean equals(final Object other){
-        return (other instanceof StringToken && value == (((IntToken) other).value));
+        return (other instanceof IntToken && value == (((IntToken) other).value));
     }
 
     @Override

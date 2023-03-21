@@ -20,6 +20,18 @@ public class LexerTest {
         assertArrayEquals(tokens,expeted);
     }
 
+    @Test
+    public void testTokenizeExp() throws TokenizerException {
+        final Token[] tokens = Tokenizer.tokenize("(1 + 2)");
+        final Token[] expeted = new Token[]{
+                new LeftParenToken(),
+                new IntToken(1),
+                new PlusToken(),
+                new IntToken(2),
+                new RightParenToken()
+        };
+        assertArrayEquals(tokens,expeted);
+    }
     
 }
 

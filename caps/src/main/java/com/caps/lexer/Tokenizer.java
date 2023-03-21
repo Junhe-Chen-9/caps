@@ -46,7 +46,7 @@ public class Tokenizer {
 
          */
         for(final String symbol : SYMBOLS.keySet()){
-            if(input.startsWith(symbol)){
+            if(input.substring(p).startsWith(symbol)){
                 p += symbol.length();
                 return SYMBOLS.get(symbol);
             }
