@@ -42,5 +42,71 @@ public class LexerTest {
         };
         assertArrayEquals(tokens,expeted);
     }
+
+
+    @Test
+    public void testTokenizeOp() throws TokenizerException {
+        final Token[] tokens = Tokenizer.tokenize("+ - && || / () {}");
+        final Token[] expected = new Token[]{
+                new PlusToken(),
+                new MinusToken(),
+                new LogicalAndToken(),
+                new LogicalOrToken(),
+                new FowardSlashToken(),
+                new LeftParenToken(),
+                new RightParenToken(),
+                new LeftBracketToken(),
+                new RightBracketToken()
+        };
+        assertArrayEquals(tokens,expected);
+    }
+    @Test
+    public void testTokenizeIf() throws TokenizerException {
+        final Token[] tokens = Tokenizer.tokenize("IF (x IS 1) {RETURNS 3} ELSE {RETURNS 7}");
+        final Token[] expected = new Token[]{
+                new IdentifierToken("IF"),
+                //new IfToken(),
+                new LeftParenToken(),
+                new IdentifierToken("x"),
+                new IsToken(),
+                new IntToken(1),
+                new RightParenToken(),
+                new LeftBracketToken(),
+                new StringToken("RETURNS"),
+                //new ReturnsToken(),
+                new IntToken(3),
+                new RightBracketToken(),
+                new StringToken("ELSE"),
+                //new ElseToken(),
+                new LeftBracketToken(),
+                new StringToken("RETURNS"),
+                //new ReturnsToken(),
+                new IntToken(7),
+                new RightBracketToken()
+        };
+        assertArrayEquals(tokens,expected);
+    }
+    @Test
+    public void testTokenizeWhile() throws TokenizerException {
+        final Token[] tokens = Tokenizer.tokenize("WHILE (x IS 2) {x++}");
+        final Token[] expected = new Token[]{
+                new IdentifierToken("WHILE"),
+                //new WhileToken(),
+                new LeftParenToken(),
+                new IdentifierToken("x"),
+                new IsToken(),
+                new IntToken(2),
+                new RightParenToken(),
+                new LeftBracketToken(),
+                new StringToken("x"),
+               // new IdentifierToken("x"),
+                new PlusToken(),
+                new PlusToken(),
+                new RightBracketToken()
+        };
+        assertArrayEquals(tokens,expected);
+    }
+
+
 }
 

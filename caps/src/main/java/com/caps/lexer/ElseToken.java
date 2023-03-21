@@ -1,6 +1,6 @@
 package com.caps.lexer;
 
-public class ElseToken {
+public class ElseToken implements Token{
     @Override
     public boolean equals(final Object other){
         return other instanceof ElseToken;
