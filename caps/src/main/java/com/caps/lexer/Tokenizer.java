@@ -7,7 +7,10 @@ public class Tokenizer {
         this.input = s;
         p = 0;
     }
-    private Token identifyIntOrDouble(){
+    public Token tokenizeIdentifierOrReservedWord(){
+        return null;
+    }
+    public Token tokenizeNumber(){
         int temp = p;
         String s = "";
         boolean flag = false;
@@ -32,7 +35,7 @@ public class Tokenizer {
         if(s.length() > 0){
             return new DoubleToken(Double.parseDouble(s));
         }
-        return null; // empty double 
+        return null; // empty double
     }
 
     // returns null if not a int
