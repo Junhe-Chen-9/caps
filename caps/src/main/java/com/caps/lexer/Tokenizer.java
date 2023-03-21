@@ -1,18 +1,83 @@
 package com.caps.lexer;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 public class Tokenizer {
     private final String input;
     private int p; // posistion where we are at right now
+    private final HashMap<String,Token> SYMBOLS = new HashMap<>();
+    private final HashMap<String,Token> KEYWORDS = new HashMap<>();
+    public Token tokenizeSymbol(){
+        /* to get add more symbol easier in the future we can use hash map
+        if(input.startsWith("(")){
+            p ++;
+            return new LeftParenToken();
+        }else if(input.startsWith(")")){
+            p ++;
+            return new RightParenToken();
+        }else if(input.startsWith("{")){
+            p ++;
+            return new LeftBracketToken();
+
+        }else if(input.startsWith("}")){
+            p ++;
+            return new RightBracketToken();
+        }else if(input.startsWith("+")){
+            p ++;
+            return new PlusToken();
+        }else if(input.startsWith("-")){
+            p ++;
+            return new MinusToken();
+        }else if(input.startsWith("<")){
+            p ++;
+            return new LessThanToken();
+        }else if(input.startsWith("/")){
+            p ++;
+            return new FowardSlashToken();
+        }else if(input.startsWith("&&")){
+            p +=2;
+            return new LogicalAndToken();
+        }else if(input.startsWith("||")){
+            p +=2;
+            return new LogicalOrToken();
+        }
+
+         */
+        for(final String symbol : SYMBOLS.keySet()){
+            if(input.startsWith(symbol)){
+                p += symbol.length();
+                return SYMBOLS.get(symbol);
+            }
+        }
+        return null; // not symbol
+    }
     public Tokenizer(final String s){
         this.input = s;
         p = 0;
+        // add SYMBOLS
+        SYMBOLS.put("(",new LeftParenToken());
+        SYMBOLS.put(")",new RightParenToken());
+        SYMBOLS.put("{",new LeftBracketToken());
+        SYMBOLS.put("}",new RightBracketToken());
+        SYMBOLS.put("+", new PlusToken());
+        SYMBOLS.put("-",new MinusToken());
+        SYMBOLS.put("/", new FowardSlashToken());
+        SYMBOLS.put("||",new LogicalOrToken());
+        SYMBOLS.put("&&", new LogicalAndToken());
+        SYMBOLS.put("<",new LogicalAndToken());
+
+        // add KEYWORDS
+        // we can do same thing for the key words that way it is eaiser to add and remove key words
+
     }
     public Token tokenizeIdentifierOrReservedWord(){
         String name = "";
         if (Character.isLetter(input.charAt(p))){
             name +=input.charAt(p);
             p ++;
-            while(Character.isLetterOrDigit(input.charAt(p))){
+            while(p < input.length() && Character.isLetterOrDigit(input.charAt(p))){
                 // keep scanning
                 name += input.charAt(p);
                 p ++;
@@ -39,7 +104,7 @@ public class Tokenizer {
         int temp = p;
         String s = "";
         boolean flag = false;
-        while(Character.isDigit(input.charAt(p)) || input.charAt(p) == '.'){
+        while(p < input.length() && Character.isDigit(input.charAt(p)) || input.charAt(p) == '.'){
             if(flag) {
                 p = temp; // set back the pointer
                 return null; // this is a string
@@ -75,7 +140,35 @@ public class Tokenizer {
         }
         return null; // empty digits
     }
-    public static Token[] tokenize(final String input){
-        return null;
+    public void skipWhitespace(){
+        while(p <input.length() && Character.isWhitespace(input.charAt(p))) p ++;
+    }
+    public Token readToken() throws TokenizerException{
+        Token res = null;
+        res = tokenizeNumber();
+        if(res != null){
+            return res;
+        }
+        res = tokenizeSymbol();
+        if(res != null){
+            return res;
+        }
+        res = tokenizeIdentifierOrReservedWord();
+        if(res != null){
+            return res;
+        }
+        throw new TokenizerException("Failed to tokenize: " + input.charAt(p));
+    }
+    public Token[] tokenize() throws TokenizerException{
+        final List<Token> retval = new ArrayList<Token>();
+        skipWhitespace();
+        while(p < input.length()){
+            retval.add(readToken());
+            skipWhitespace();
+        }
+        return retval.toArray(new Token[retval.size()]);
+    }
+    public static Token[] tokenize(final String input) throws TokenizerException{
+        return new Tokenizer(input).tokenize();
     }
 }

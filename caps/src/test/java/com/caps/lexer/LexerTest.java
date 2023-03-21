@@ -14,7 +14,7 @@ public class LexerTest {
 
 
     @Test
-    public void testTokenizeIdentifier(){
+    public void testTokenizeIdentifier() throws TokenizerException {
         final Token[] tokens = Tokenizer.tokenize("bar");
         final Token[] expeted = new Token[]{new IdentifierToken("bar")};
         assertArrayEquals(tokens,expeted);
