@@ -47,7 +47,7 @@ public class LexerTest {
 
     @Test
     public void testTokenizeOp() throws TokenizerException {
-        final Token[] tokens = Tokenizer.tokenize("+ - && || / () {}");
+        final Token[] tokens = Tokenizer.tokenize("+ - && || / () {} <");
         final Token[] expected = new Token[]{
                 new PlusToken(),
                 new MinusToken(),
@@ -57,7 +57,8 @@ public class LexerTest {
                 new LeftParenToken(),
                 new RightParenToken(),
                 new LeftBracketToken(),
-                new RightBracketToken()
+                new RightBracketToken(),
+                new LessThanToken()
         };
         assertArrayEquals(tokens,expected);
     }
