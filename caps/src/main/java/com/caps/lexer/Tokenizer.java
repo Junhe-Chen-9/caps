@@ -96,9 +96,16 @@ public class Tokenizer {
                 // make sure we are tokening next token as string or as value
                 isFlag = true;
                 return new IsToken();
-            } else{
+            } else if(name.equals("IF")){
+                return new IfToken();
+            }else if (name.equals("RETURNS")){
+                return new ReturnsToken();
+            }else if (name.equals("ELSE")){
+                return new ElseToken();
+            }else{
                 return isFlag ? new StringToken(name) : new IdentifierToken(name);
             }
+
             //TODO add more else if to cover all tokens
         }else{
             return null;// not identifier or reserved World
