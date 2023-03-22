@@ -68,7 +68,7 @@ public class Tokenizer {
         SYMBOLS.put("/", new FowardSlashToken());
         SYMBOLS.put("||",new LogicalOrToken());
         SYMBOLS.put("&&", new LogicalAndToken());
-        SYMBOLS.put("<",new LogicalAndToken());
+        SYMBOLS.put("<",new LessThanToken());
         SYMBOLS.put(",",new CommaToken());
         SYMBOLS.put(";",new SemicolonToken());
 
