@@ -63,3 +63,6 @@ Possible Tokens:
 - LeftBracketToken : 17
 - RightBracketToken : 18
 - CommaToken : 19
+- SemicolonToken : 23
+- ExecutesToken : 24
+- PrintToken : 25

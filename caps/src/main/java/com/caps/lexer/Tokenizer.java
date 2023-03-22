@@ -109,6 +109,10 @@ public class Tokenizer {
                 return new StrToken();
             }else if(name.equals("WHILE")){
                 return new WhileToken();
+            }else if(name.equals("EXECUTES")){
+                return new ExecutesToken();
+            }else if(name.equals("PRINT")){
+                return new PrintToken();
             }
 
             else{
