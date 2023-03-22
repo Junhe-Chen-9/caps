@@ -1,18 +1,17 @@
 package com.caps.lexer;
 
-public class StrToken implements Token{
-    // this is reserved word STRING
+public class CommaToken implements Token{
     @Override
     public boolean equals(final Object other){
-        return other instanceof StrToken;
+        return other instanceof CommaToken;
     }
     @Override
     public int hashCode(){
-        return 22;
+        return 19;
     }
 
     @Override
     public String toString() {
-        return "StrToken{}";
+        return "CommaToken{}";
     }
 }

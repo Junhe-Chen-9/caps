@@ -69,6 +69,7 @@ public class Tokenizer {
         SYMBOLS.put("||",new LogicalOrToken());
         SYMBOLS.put("&&", new LogicalAndToken());
         SYMBOLS.put("<",new LogicalAndToken());
+        SYMBOLS.put(",",new CommaToken());
 
         // add KEYWORDS
         // we can do same thing for the key words that way it is eaiser to add and remove key words
@@ -102,7 +103,15 @@ public class Tokenizer {
                 return new ReturnsToken();
             }else if (name.equals("ELSE")){
                 return new ElseToken();
-            }else{
+            }else if(name.equals("DEFINE")){
+                return new DefineToken();
+            }else if(name.equals("STRING")){
+                return new StrToken();
+            }else if(name.equals("WHILE")){
+                return new WhileToken();
+            }
+
+            else{
                 return isFlag ? new StringToken(name) : new IdentifierToken(name);
             }
 
