@@ -70,6 +70,7 @@ public class Tokenizer {
         SYMBOLS.put("&&", new LogicalAndToken());
         SYMBOLS.put("<",new LogicalAndToken());
         SYMBOLS.put(",",new CommaToken());
+        SYMBOLS.put(";",new SemicolonToken());
 
         // add KEYWORDS
         // we can do same thing for the key words that way it is eaiser to add and remove key words
@@ -113,10 +114,17 @@ public class Tokenizer {
                 return new ExecutesToken();
             }else if(name.equals("PRINT")){
                 return new PrintToken();
+            }else if(name.equals("EQUALS")){
+                return new EqualsToken();
             }
 
             else{
-                return isFlag ? new StringToken(name) : new IdentifierToken(name);
+                if(isFlag){
+                    isFlag = false;
+                    return new StringToken(name);
+                }else{
+                    return new IdentifierToken(name);
+                }
             }
 
             //TODO add more else if to cover all tokens
@@ -150,6 +158,7 @@ public class Tokenizer {
             p ++;
         }
         if(s.length() > 0){
+            isFlag = false;
             return new DoubleToken(Double.parseDouble(s));
         }
         return null; // empty double
@@ -163,6 +172,7 @@ public class Tokenizer {
             p ++;
         }
         if(digits.length() > 0){
+            isFlag = false;
             return new IntToken(Integer.parseInt(digits));
         }
         return null; // empty digits

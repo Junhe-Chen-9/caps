@@ -130,7 +130,7 @@ public class LexerTest {
     }
     @Test
     public void testTokenizeBooleanMethodDef() throws TokenizerException {
-        final Token[] tokens = Tokenizer.tokenize("DEFINE BOOLEAN isEven (NUMBER x) {RETURNS (x / 2) IS 0;} ");
+        final Token[] tokens = Tokenizer.tokenize("DEFINE BOOLEAN isEven (NUMBER x) {RETURNS (x / 2) EQUALS 0;} ");
         final Token[] expected = new Token[]{
                 new DefineToken(),
                 new BooleanToken(),
@@ -146,7 +146,7 @@ public class LexerTest {
                 new FowardSlashToken(),
                 new IntToken(2),
                 new RightParenToken(),
-                new IsToken(),
+                new EqualsToken(),
                 new IntToken(0),
                 new SemicolonToken(),
                 new RightBracketToken()

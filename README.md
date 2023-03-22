@@ -66,3 +66,4 @@ Possible Tokens:
 - SemicolonToken : 23
 - ExecutesToken : 24
 - PrintToken : 25
+- EqualsToken : 26
