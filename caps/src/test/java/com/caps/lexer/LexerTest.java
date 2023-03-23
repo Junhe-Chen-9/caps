@@ -47,24 +47,49 @@ public class LexerTest {
 
     @Test
     public void testTokenizeOp() throws TokenizerException {
-        final Token[] tokens = Tokenizer.tokenize("+ - && || / () {} <");
+        final Token[] tokens = Tokenizer.tokenize("IF ((x < 1) && (y < 2) || (x EQUALS 10)) {x--;} ELSE {y++;}");
         final Token[] expected = new Token[]{
-                new PlusToken(),
-                new MinusToken(),
-                new LogicalAndToken(),
-                new LogicalOrToken(),
-                new FowardSlashToken(),
+                new IfToken(),
                 new LeftParenToken(),
+                new LeftParenToken(),
+                new IdentifierToken("x"),
+                new LessThanToken(),
+                new IntToken(1),
+                new RightParenToken(),
+                new LogicalAndToken(),
+                new LogicalAndToken(),
+                new LeftParenToken(),
+                new IdentifierToken("y"),
+                new LessThanToken(),
+                new IntToken(2),
+                new RightParenToken(),
+                new LogicalOrToken(),
+                new LogicalOrToken(),
+                new LeftParenToken(),
+                new IdentifierToken("x"),
+                new EqualsToken(),
+                new IntToken(10),
+                new RightParenToken(),
                 new RightParenToken(),
                 new LeftBracketToken(),
+                new IdentifierToken("x"),
+                new MinusToken(),
+                new MinusToken(),
+                new SemicolonToken(),
                 new RightBracketToken(),
-                new LessThanToken()
+                new ElseToken(),
+                new LeftBracketToken(),
+                new IdentifierToken("y"),
+                new PlusToken(),
+                new PlusToken(),
+                new SemicolonToken(),
+                new RightBracketToken(),
         };
         assertArrayEquals(tokens,expected);
     }
     @Test
     public void testTokenizeIf() throws TokenizerException {
-        final Token[] tokens = Tokenizer.tokenize("IF (x IS 1) {RETURNS 3} ELSE {RETURNS 7}");
+        final Token[] tokens = Tokenizer.tokenize("IF (x IS 1) {RETURNS 3;} ELSE {RETURNS 7;}");
         final Token[] expected = new Token[]{
                 new IfToken(),
                 new LeftParenToken(),
@@ -75,11 +100,13 @@ public class LexerTest {
                 new LeftBracketToken(),
                 new ReturnsToken(),
                 new IntToken(3),
+                new SemicolonToken(),
                 new RightBracketToken(),
                 new ElseToken(),
                 new LeftBracketToken(),
                 new ReturnsToken(),
                 new IntToken(7),
+                new SemicolonToken(),
                 new RightBracketToken()
         };
         assertArrayEquals(tokens,expected);
@@ -87,7 +114,7 @@ public class LexerTest {
 
     @Test
     public void testTokenizeWhile() throws TokenizerException {
-        final Token[] tokens = Tokenizer.tokenize("WHILE (x IS 2) {x++}");
+        final Token[] tokens = Tokenizer.tokenize("WHILE (x IS 2) {x++;}");
         final Token[] expected = new Token[]{
                 new WhileToken(),
                 new LeftParenToken(),
@@ -99,6 +126,7 @@ public class LexerTest {
                 new IdentifierToken("x"),
                 new PlusToken(),
                 new PlusToken(),
+                new SemicolonToken(),
                 new RightBracketToken()
         };
         assertArrayEquals(tokens,expected);
