@@ -132,7 +132,7 @@ public class LexerTest {
 
     @Test
     public void testTokenizeMethodDef() throws TokenizerException {
-        final Token[] tokens = Tokenizer.tokenize("DEFINE NUMBER addnum(NUMBER x) {sum IS x + x; RETURNS sum;}");
+        final Token[] tokens = Tokenizer.tokenize("DEFINE NUMBER addnum (NUMBER x) {sum IS x + x; RETURNS sum;}");
         final Token[] expected = new Token[]{
                 new DefineToken(),
                 new NumberToken(),

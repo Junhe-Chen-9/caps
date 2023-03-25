@@ -122,6 +122,16 @@ public class Tokenizer {
             else{
                 if(isFlag){
                     isFlag = false;
+                    int temp = p;
+                    while(temp < input.length() && input.charAt(temp) == ' ') temp++;
+                    if(temp < input.length()){
+                        for(final String symbol : SYMBOLS.keySet()){
+                            if(symbol.equals(";")) continue;
+                            if(input.substring(temp).startsWith(symbol)){
+                                return new IdentifierToken(name);
+                            }
+                        }
+                    }
                     return new StringToken(name);
                 }else{
                     return new IdentifierToken(name);
