@@ -71,6 +71,7 @@ public class Tokenizer {
         SYMBOLS.put("<",new LessThanToken());
         SYMBOLS.put(",",new CommaToken());
         SYMBOLS.put(";",new SemicolonToken());
+        SYMBOLS.put(">",new GreaterThanToken());
 
         // add KEYWORDS
         // we can do same thing for the key words that way it is eaiser to add and remove key words

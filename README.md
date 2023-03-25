@@ -67,3 +67,4 @@ Possible Tokens:
 - ExecutesToken : 24
 - PrintToken : 25
 - EqualsToken : 26
+- GreaterThanToken : 27
