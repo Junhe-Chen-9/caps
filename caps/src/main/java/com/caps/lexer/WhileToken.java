@@ -7,7 +7,7 @@ public class WhileToken implements Token{
     }
     @Override
     public int hashCode(){
-        return 4;
+        return 5;
     }
 
     @Override

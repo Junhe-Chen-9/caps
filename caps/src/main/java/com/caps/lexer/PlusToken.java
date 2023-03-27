@@ -7,7 +7,7 @@ public class PlusToken implements Token{
     }
     @Override
     public int hashCode(){
-        return 5;
+        return 6;
     }
 
     @Override
