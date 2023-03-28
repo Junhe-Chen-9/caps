@@ -295,5 +295,6 @@ public class LexerTest {
         };
         assertArrayEquals(tokens,expected);
     }
+    // TODO: String token 
 }
 
