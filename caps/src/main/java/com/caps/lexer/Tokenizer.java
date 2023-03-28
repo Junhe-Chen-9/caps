@@ -116,6 +116,7 @@ public class Tokenizer {
             }else if(name.equals("PRINT")){
                 return new PrintToken();
             }else if(name.equals("EQUALS")){
+                isFlag = true; // because equals should follow by an exp or variable
                 return new EqualsToken();
             }else if(name.equals("TRUE")){
                 return new TrueToken();

@@ -7,7 +7,7 @@ public class DoubleToken implements Token{
     }
     @Override
     public boolean equals(final Object other){
-        return (other instanceof StringToken && value == (((DoubleToken) other).value));
+        return (other instanceof DoubleToken && value == (((DoubleToken) other).value));
     }
 
     @Override

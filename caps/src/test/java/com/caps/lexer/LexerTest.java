@@ -238,6 +238,7 @@ public class LexerTest {
     }
 
 
+    /* this is not in grammar so it should not be tested
     @Test
     public void testTokenizeStringSingleWord() throws TokenizerException {
         final Token[] tokens = Tokenizer.tokenize("hello");
@@ -246,6 +247,7 @@ public class LexerTest {
         };
         assertArrayEquals(tokens,expected);
     }
+
 
     @Test
     public void testTokenizeStringMultipleWords() throws TokenizerException {
@@ -274,6 +276,8 @@ public class LexerTest {
         assertArrayEquals(tokens,expected);
     }
 
+
+     */
     @Test
     public void testTokenizeIfTrueString() throws TokenizerException {
         final Token[] tokens = Tokenizer.tokenize("IF(TRUE) {name EQUALS Bob;}");
