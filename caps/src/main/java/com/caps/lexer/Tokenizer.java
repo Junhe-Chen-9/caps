@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Tokenizer {
     private final String input;
-    private int p; // posistion where we are at right now
+    private int p; // position where we are at right now
     private final HashMap<String,Token> SYMBOLS = new HashMap<>();
     private final HashMap<String,Token> KEYWORDS = new HashMap<>();
     private boolean isFlag;
@@ -74,7 +74,7 @@ public class Tokenizer {
         SYMBOLS.put(">",new GreaterThanToken());
 
         // add KEYWORDS
-        // we can do same thing for the key words that way it is eaiser to add and remove key words
+        // we can do same thing for the key words that way it is easier to add and remove key words
 
     }
     public Token tokenizeIdentifierOrReservedWord(){
@@ -117,6 +117,10 @@ public class Tokenizer {
                 return new PrintToken();
             }else if(name.equals("EQUALS")){
                 return new EqualsToken();
+            }else if(name.equals("TRUE")){
+                return new TrueToken();
+            }else if(name.equals("FALSE")){
+                return new FalseToken();
             }
 
             else{
@@ -140,7 +144,7 @@ public class Tokenizer {
 
             //TODO add more else if to cover all tokens
         }else{
-            return null;// not identifier or reserved World
+            return null;// not identifier or reserved word
         }
 
 
@@ -154,7 +158,7 @@ public class Tokenizer {
             if(flag) {
                 p = temp; // set back the pointer
                 return null; // this is a string
-                }
+            }
             if(input.charAt(p) == '.') flag = true;
             s += input.charAt(p);
             p ++;
