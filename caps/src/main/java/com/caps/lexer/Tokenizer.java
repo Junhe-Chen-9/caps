@@ -95,6 +95,20 @@ public class Tokenizer {
         SYMBOLS.put(">",new GreaterThanToken());
 
         // add KEYWORDS
+        KEYWORDS.put("NUMBER",new NumberToken());
+        KEYWORDS.put("BOOLEAN",new BooleanToken());
+        KEYWORDS.put("IS",new IsToken());
+        KEYWORDS.put("IF",new IfToken());
+        KEYWORDS.put("RETURNS",new ReturnsToken());
+        KEYWORDS.put("ELSE",new ElseToken());
+        KEYWORDS.put("DEFINE",new DefineToken());
+        KEYWORDS.put("STRING",new StrToken());
+        KEYWORDS.put("WHILE",new WhileToken());
+        KEYWORDS.put("EXECUTES",new ExecutesToken());
+        KEYWORDS.put("PRINT",new PrintToken());
+        KEYWORDS.put("EQUALS",new EqualsToken());
+        KEYWORDS.put("TRUE",new TrueToken());
+        KEYWORDS.put("FALSE",new FalseToken());
         // we can do same thing for the key words that way it is easier to add and remove key words
 
     }
@@ -111,40 +125,14 @@ public class Tokenizer {
 
             // now you read the identifier or reserved word
             // check against all our tokens possibility
-            if(name.equals("NUMBER")){
-                return new NumberToken();
-            }else if(name.equals("BOOLEAN")){
-                return new BooleanToken();
-            }else if(name.equals("IS")){
-                return new IsToken();
-            } else if(name.equals("IF")){
-                return new IfToken();
-            }else if (name.equals("RETURNS")){
-                return new ReturnsToken();
-            }else if (name.equals("ELSE")){
-                return new ElseToken();
-            }else if(name.equals("DEFINE")){
-                return new DefineToken();
-            }else if(name.equals("STRING")){
-                return new StrToken();
-            }else if(name.equals("WHILE")){
-                return new WhileToken();
-            }else if(name.equals("EXECUTES")){
-                return new ExecutesToken();
-            }else if(name.equals("PRINT")){
-                return new PrintToken();
-            }else if(name.equals("EQUALS")){
-
-                return new EqualsToken();
-            }else if(name.equals("TRUE")){
-                return new TrueToken();
-            }else if(name.equals("FALSE")){
-                return new FalseToken();
+            for(String w : KEYWORDS.keySet()){
+                if(name.equals(w)){
+                    return KEYWORDS.get(name);
+                }
             }
 
-            else{
-                return new IdentifierToken(name);
-            }
+            return new IdentifierToken(name);
+
 
             //TODO add more else if to cover all tokens
         }else{
