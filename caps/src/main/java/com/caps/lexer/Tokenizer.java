@@ -94,7 +94,7 @@ public class Tokenizer {
         SYMBOLS.put(",",new CommaToken());
         SYMBOLS.put(";",new SemicolonToken());
         SYMBOLS.put(">",new GreaterThanToken());
-
+        SYMBOLS.put("*",new AsteriskToken());
         // add KEYWORDS
         KEYWORDS.put("NUMBER",new NumberToken());
         KEYWORDS.put("BOOLEAN",new BooleanToken());
@@ -144,25 +144,24 @@ public class Tokenizer {
 
 
     }
-    public Token tokenizeNumber(){
+    public Token tokenizeNumber() throws TokenizerException {
         int temp = p;
         String s = "";
         boolean flag = false;
-        while(p < input.length() && Character.isDigit(input.charAt(p)) || input.charAt(p) == '.'){
-            if(flag) {
-                p = temp; // set back the pointer
-                return null; // this is a string
+        while(temp < input.length() && (Character.isDigit(input.charAt(temp)) || input.charAt(temp) == '.')){
+            if(input.charAt(temp) == '.' && flag) {
+                throw new TokenizerException("not valid number");
             }
-            if(input.charAt(p) == '.') flag = true;
-            s += input.charAt(p);
-            p ++;
+            if(input.charAt(temp) == '.') flag = true;
+            s += input.charAt(temp);
+            temp ++;
         }
-        p = temp; // set back the pointer and tokenize accordingly
+
         return flag ? tokenizeDouble() : tokenizeInt();
     }
     public DoubleToken tokenizeDouble(){
         String s = "";
-        while(Character.isDigit(input.charAt(p)) || input.charAt(p) == '.'){
+        while(p < input.length() && (Character.isDigit(input.charAt(p)) || input.charAt(p) == '.')){
             s += input.charAt(p);
             p ++;
         }
