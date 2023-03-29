@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="18" failures="0" name="com.caps.lexer.LexerTest" time="0.019" errors="0" skipped="0">
+<testsuite tests="22" failures="0" name="com.caps.lexer.LexerTest" time="0.02" errors="0" skipped="0">
   <properties>
     <property name="idea.version" value="2021.3.1"/>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
@@ -63,21 +63,25 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
   </properties>
   <testcase classname="com.caps.lexer.LexerTest" name="testCannotTokenize" time="0.012"/>
-  <testcase classname="com.caps.lexer.LexerTest" name="testTokenizeExp" time="0.003"/>
-  <testcase classname="com.caps.lexer.LexerTest" name="testTokenizePrint" time="0.002"/>
+  <testcase classname="com.caps.lexer.LexerTest" name="testStrToken" time="0.003"/>
+  <testcase classname="com.caps.lexer.LexerTest" name="testTokenizeExp" time="0.001"/>
+  <testcase classname="com.caps.lexer.LexerTest" name="testTokenizeFalse" time="0.001"/>
+  <testcase classname="com.caps.lexer.LexerTest" name="testTokenizePrint" time="0"/>
   <testcase classname="com.caps.lexer.LexerTest" name="testTokenizeWhile" time="0"/>
   <testcase classname="com.caps.lexer.LexerTest" name="testTokenizeSingleDigitInt" time="0"/>
   <testcase classname="com.caps.lexer.LexerTest" name="testIdentifierEquals" time="0"/>
   <testcase classname="com.caps.lexer.LexerTest" name="testTokenizeMethodDef" time="0"/>
   <testcase classname="com.caps.lexer.LexerTest" name="testTokenizeIdentifier" time="0"/>
+  <testcase classname="com.caps.lexer.LexerTest" name="testTokenizeHigherOrderFunctionCall" time="0.001"/>
   <testcase classname="com.caps.lexer.LexerTest" name="testTokenizeIf" time="0"/>
   <testcase classname="com.caps.lexer.LexerTest" name="testTokenizeOp" time="0"/>
   <testcase classname="com.caps.lexer.LexerTest" name="testTokenizeHigherOrderFuncDef" time="0"/>
-  <testcase classname="com.caps.lexer.LexerTest" name="testTokenizeIfTrueString" time="0.001"/>
-  <testcase classname="com.caps.lexer.LexerTest" name="testTokenizeStringSingleWord" time="0"/>
+  <testcase classname="com.caps.lexer.LexerTest" name="testTokenizeIfTrueString" time="0"/>
+  <testcase classname="com.caps.lexer.LexerTest" name="testTokenizeStringSingleWord" time="0.001"/>
   <testcase classname="com.caps.lexer.LexerTest" name="testTokenizeStmt" time="0"/>
-  <testcase classname="com.caps.lexer.LexerTest" name="testTokenizeDouble" time="0"/>
-  <testcase classname="com.caps.lexer.LexerTest" name="testTokenizeBooleanMethodDef" time="0.001"/>
+  <testcase classname="com.caps.lexer.LexerTest" name="testTokenizeDouble" time="0.001"/>
+  <testcase classname="com.caps.lexer.LexerTest" name="testInvalidDouble" time="0"/>
+  <testcase classname="com.caps.lexer.LexerTest" name="testTokenizeBooleanMethodDef" time="0"/>
   <testcase classname="com.caps.lexer.LexerTest" name="testTokenizeIdentifierWithUppercase" time="0"/>
   <testcase classname="com.caps.lexer.LexerTest" name="testTokenizeMultiDigitInt" time="0"/>
 </testsuite>
