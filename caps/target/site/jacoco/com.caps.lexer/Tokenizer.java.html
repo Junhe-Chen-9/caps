@@ -93,7 +93,7 @@ public class Tokenizer {
 <span class="fc" id="L93">        SYMBOLS.put(&quot;,&quot;,new CommaToken());</span>
 <span class="fc" id="L94">        SYMBOLS.put(&quot;;&quot;,new SemicolonToken());</span>
 <span class="fc" id="L95">        SYMBOLS.put(&quot;&gt;&quot;,new GreaterThanToken());</span>
-
+<span class="fc" id="L96">        SYMBOLS.put(&quot;*&quot;,new AsteriskToken());</span>
         // add KEYWORDS
 <span class="fc" id="L98">        KEYWORDS.put(&quot;NUMBER&quot;,new NumberToken());</span>
 <span class="fc" id="L99">        KEYWORDS.put(&quot;BOOLEAN&quot;,new BooleanToken());</span>
@@ -109,64 +109,64 @@ public class Tokenizer {
 <span class="fc" id="L109">        KEYWORDS.put(&quot;EQUALS&quot;,new EqualsToken());</span>
 <span class="fc" id="L110">        KEYWORDS.put(&quot;TRUE&quot;,new TrueToken());</span>
 <span class="fc" id="L111">        KEYWORDS.put(&quot;FALSE&quot;,new FalseToken());</span>
+<span class="fc" id="L112">        KEYWORDS.put(&quot;CALL&quot;,new CallToken());</span>
         // we can do same thing for the key words that way it is easier to add and remove key words
 
-<span class="fc" id="L114">    }</span>
+<span class="fc" id="L115">    }</span>
     public Token tokenizeIdentifierOrReservedWord(){
-<span class="fc" id="L116">        String name = &quot;&quot;;</span>
-<span class="fc bfc" id="L117" title="All 2 branches covered.">        if (Character.isLetter(input.charAt(p))){</span>
-<span class="fc" id="L118">            name +=input.charAt(p);</span>
-<span class="fc" id="L119">            p ++;</span>
-<span class="fc bfc" id="L120" title="All 4 branches covered.">            while(p &lt; input.length() &amp;&amp; Character.isLetterOrDigit(input.charAt(p))){</span>
+<span class="fc" id="L117">        String name = &quot;&quot;;</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">        if (Character.isLetter(input.charAt(p))){</span>
+<span class="fc" id="L119">            name +=input.charAt(p);</span>
+<span class="fc" id="L120">            p ++;</span>
+<span class="fc bfc" id="L121" title="All 4 branches covered.">            while(p &lt; input.length() &amp;&amp; Character.isLetterOrDigit(input.charAt(p))){</span>
                 // keep scanning
-<span class="fc" id="L122">                name += input.charAt(p);</span>
-<span class="fc" id="L123">                p ++;</span>
+<span class="fc" id="L123">                name += input.charAt(p);</span>
+<span class="fc" id="L124">                p ++;</span>
             }
 
             // now you read the identifier or reserved word
             // check against all our tokens possibility
-<span class="fc bfc" id="L128" title="All 2 branches covered.">            for(String w : KEYWORDS.keySet()){</span>
-<span class="fc bfc" id="L129" title="All 2 branches covered.">                if(name.equals(w)){</span>
-<span class="fc" id="L130">                    return KEYWORDS.get(name);</span>
+<span class="fc bfc" id="L129" title="All 2 branches covered.">            for(String w : KEYWORDS.keySet()){</span>
+<span class="fc bfc" id="L130" title="All 2 branches covered.">                if(name.equals(w)){</span>
+<span class="fc" id="L131">                    return KEYWORDS.get(name);</span>
                 }
-<span class="fc" id="L132">            }</span>
+<span class="fc" id="L133">            }</span>
 
-<span class="fc" id="L134">            return new IdentifierToken(name);</span>
+<span class="fc" id="L135">            return new IdentifierToken(name);</span>
 
 
             //TODO add more else if to cover all tokens
         }else{
-<span class="fc" id="L139">            return null;// not identifier or reserved word</span>
+<span class="fc" id="L140">            return null;// not identifier or reserved word</span>
         }
 
 
 
     }
-    public Token tokenizeNumber(){
-<span class="fc" id="L146">        int temp = p;</span>
-<span class="fc" id="L147">        String s = &quot;&quot;;</span>
-<span class="fc" id="L148">        boolean flag = false;</span>
-<span class="pc bpc" id="L149" title="2 of 6 branches missed.">        while(p &lt; input.length() &amp;&amp; Character.isDigit(input.charAt(p)) || input.charAt(p) == '.'){</span>
-<span class="pc bpc" id="L150" title="1 of 2 branches missed.">            if(flag) {</span>
-<span class="nc" id="L151">                p = temp; // set back the pointer</span>
-<span class="nc" id="L152">                return null; // this is a string</span>
+    public Token tokenizeNumber() throws TokenizerException {
+<span class="fc" id="L147">        int temp = p;</span>
+<span class="fc" id="L148">        String s = &quot;&quot;;</span>
+<span class="fc" id="L149">        boolean flag = false;</span>
+<span class="fc bfc" id="L150" title="All 6 branches covered.">        while(temp &lt; input.length() &amp;&amp; (Character.isDigit(input.charAt(temp)) || input.charAt(temp) == '.')){</span>
+<span class="fc bfc" id="L151" title="All 4 branches covered.">            if(input.charAt(temp) == '.' &amp;&amp; flag) {</span>
+<span class="fc" id="L152">                throw new TokenizerException(&quot;not valid number&quot;);</span>
             }
-<span class="pc bpc" id="L154" title="1 of 2 branches missed.">            if(input.charAt(p) == '.') flag = true;</span>
-<span class="fc" id="L155">            s += input.charAt(p);</span>
-<span class="fc" id="L156">            p ++;</span>
+<span class="fc bfc" id="L154" title="All 2 branches covered.">            if(input.charAt(temp) == '.') flag = true;</span>
+<span class="fc" id="L155">            s += input.charAt(temp);</span>
+<span class="fc" id="L156">            temp ++;</span>
         }
-<span class="fc" id="L158">        p = temp; // set back the pointer and tokenize accordingly</span>
-<span class="pc bpc" id="L159" title="1 of 2 branches missed.">        return flag ? tokenizeDouble() : tokenizeInt();</span>
+
+<span class="fc bfc" id="L159" title="All 2 branches covered.">        return flag ? tokenizeDouble() : tokenizeInt();</span>
     }
     public DoubleToken tokenizeDouble(){
-<span class="nc" id="L162">        String s = &quot;&quot;;</span>
-<span class="nc bnc" id="L163" title="All 4 branches missed.">        while(Character.isDigit(input.charAt(p)) || input.charAt(p) == '.'){</span>
-<span class="nc" id="L164">            s += input.charAt(p);</span>
-<span class="nc" id="L165">            p ++;</span>
+<span class="fc" id="L162">        String s = &quot;&quot;;</span>
+<span class="pc bpc" id="L163" title="1 of 6 branches missed.">        while(p &lt; input.length() &amp;&amp; (Character.isDigit(input.charAt(p)) || input.charAt(p) == '.')){</span>
+<span class="fc" id="L164">            s += input.charAt(p);</span>
+<span class="fc" id="L165">            p ++;</span>
         }
-<span class="nc bnc" id="L167" title="All 2 branches missed.">        if(s.length() &gt; 0){</span>
+<span class="pc bpc" id="L167" title="1 of 2 branches missed.">        if(s.length() &gt; 0){</span>
 
-<span class="nc" id="L169">            return new DoubleToken(Double.parseDouble(s));</span>
+<span class="fc" id="L169">            return new DoubleToken(Double.parseDouble(s));</span>
         }
 <span class="nc" id="L171">        return null; // empty double</span>
     }

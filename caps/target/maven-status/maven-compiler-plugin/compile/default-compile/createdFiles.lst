@@ -25,6 +25,7 @@ com/caps/lexer/WhileToken.class
 com/caps/lexer/GreaterThanToken.class
 com/caps/lexer/RightParenToken.class
 com/caps/lexer/StringEndToken.class
+com/caps/lexer/CallToken.class
 com/caps/lexer/Tokenizer.class
 com/caps/lexer/CommaToken.class
 com/caps/lexer/LessThanToken.class

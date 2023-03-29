@@ -10,16 +10,17 @@ public class StringToken implements Token{
     @Override
     public boolean equals(final Object other){
 <span class="pc bpc" id="L12" title="2 of 4 branches missed.">        return (other instanceof StringToken &amp;&amp; value.equals(((StringToken) other).value));</span>
+        //return (other instanceof StringToken &amp;&amp; hashCode() == other.hashCode());
     }
 
     @Override
     public int hashCode(){
-<span class="nc" id="L17">        return value.hashCode();</span>
+<span class="nc" id="L18">        return value.hashCode();</span>
     }
 
     @Override
     public String toString() {
-<span class="nc" id="L22">        return &quot;StringToken{&quot; +</span>
+<span class="nc" id="L23">        return &quot;StringToken{&quot; +</span>
                 &quot;value='&quot; + value + '\'' +
                 '}';
     }

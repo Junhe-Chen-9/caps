@@ -10,6 +10,7 @@ public class StringToken implements Token{
     @Override
     public boolean equals(final Object other){
         return (other instanceof StringToken && value.equals(((StringToken) other).value));
+        //return (other instanceof StringToken && hashCode() == other.hashCode());
     }
 
     @Override
