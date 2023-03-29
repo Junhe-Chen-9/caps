@@ -109,6 +109,7 @@ public class Tokenizer {
         KEYWORDS.put("EQUALS",new EqualsToken());
         KEYWORDS.put("TRUE",new TrueToken());
         KEYWORDS.put("FALSE",new FalseToken());
+        KEYWORDS.put("CALL",new CallToken());
         // we can do same thing for the key words that way it is easier to add and remove key words
 
     }
