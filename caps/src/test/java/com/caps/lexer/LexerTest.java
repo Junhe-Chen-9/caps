@@ -201,11 +201,13 @@ public class LexerTest {
 
     @Test
     public void testTokenizePrint() throws TokenizerException {
-        final Token[] tokens = Tokenizer.tokenize("x IS foo; PRINT (x);");
+        final Token[] tokens = Tokenizer.tokenize("x IS \"foo\"; PRINT (x);");
         final Token[] expected = new Token[]{
                 new IdentifierToken("x"),
                 new IsToken(),
+                new StringStartToken(),
                 new StringToken("foo"),
+                new StringEndToken(),
                 new SemicolonToken(),
                 new PrintToken(),
                 new LeftParenToken(),

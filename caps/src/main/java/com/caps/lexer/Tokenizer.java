@@ -24,10 +24,10 @@ public class Tokenizer {
         }else{
             if(isString){
                 int end = p;
-                while(end < input.length() && input.charAt(p) != '\"') end ++;
+                while(end < input.length() && input.charAt(end) != '\"') end ++;
                 int start = p;
-                p = end - 1;
-                return new StringToken(input.substring(start,end - 1));
+                p = end;
+                return new StringToken(input.substring(start,end));
             }
         }
         return null;
