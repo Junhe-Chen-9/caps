@@ -223,6 +223,7 @@ public class LexerTest {
         assertEquals(new IntToken(1), new IntToken(1));
     }
 
+
     @Test
     public void testTokenizeMultiDigitInt() {
         assertEquals(new IntToken(12345), new IntToken(12345));
@@ -252,6 +253,11 @@ public class LexerTest {
                 new StringEndToken()
         };
         assertArrayEquals(tokens,expected);
+    }
+
+    @Test(expected = TokenizerException.class)
+    public void testCannotTokenize() throws TokenizerException {
+        Tokenizer.tokenize("$");
     }
 
     /* this is not in grammar so it should not be tested
