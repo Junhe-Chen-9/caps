@@ -9,7 +9,29 @@ public class Tokenizer {
     private int p; // position where we are at right now
     private final HashMap<String,Token> SYMBOLS = new HashMap<>();
     private final HashMap<String,Token> KEYWORDS = new HashMap<>();
-    private boolean isFlag;
+    boolean isString = false;
+    private Token tokenizeString(){
+
+        if(input.substring(p).startsWith("\"")){
+            if(isString){
+                isString = false;
+                p ++;
+                return new StringEndToken();
+            }
+            isString = true;
+            p ++;
+            return new StringStartToken();
+        }else{
+            if(isString){
+                int end = p;
+                while(end < input.length() && input.charAt(p) != '\"') end ++;
+                int start = p;
+                p = end - 1;
+                return new StringToken(input.substring(start,end - 1));
+            }
+        }
+        return null;
+    }
     public Token tokenizeSymbol(){
         /* to get add more symbol easier in the future we can use hash map
         if(input.startsWith("(")){
@@ -57,7 +79,6 @@ public class Tokenizer {
     public Tokenizer(final String s){
         this.input = s;
         p = 0;
-        isFlag = false;
         // add SYMBOLS
         SYMBOLS.put("(",new LeftParenToken());
         SYMBOLS.put(")",new RightParenToken());
@@ -95,9 +116,6 @@ public class Tokenizer {
             }else if(name.equals("BOOLEAN")){
                 return new BooleanToken();
             }else if(name.equals("IS")){
-                // this is a tricky situation
-                // make sure we are tokening next token as string or as value
-                isFlag = true;
                 return new IsToken();
             } else if(name.equals("IF")){
                 return new IfToken();
@@ -116,7 +134,7 @@ public class Tokenizer {
             }else if(name.equals("PRINT")){
                 return new PrintToken();
             }else if(name.equals("EQUALS")){
-                isFlag = true; // because equals should follow by an exp or variable
+
                 return new EqualsToken();
             }else if(name.equals("TRUE")){
                 return new TrueToken();
@@ -125,22 +143,7 @@ public class Tokenizer {
             }
 
             else{
-                if(isFlag){
-                    isFlag = false;
-                    int temp = p;
-                    while(temp < input.length() && input.charAt(temp) == ' ') temp++;
-                    if(temp < input.length()){
-                        for(final String symbol : SYMBOLS.keySet()){
-                            if(symbol.equals(";")) continue;
-                            if(input.substring(temp).startsWith(symbol)){
-                                return new IdentifierToken(name);
-                            }
-                        }
-                    }
-                    return new StringToken(name);
-                }else{
-                    return new IdentifierToken(name);
-                }
+                return new IdentifierToken(name);
             }
 
             //TODO add more else if to cover all tokens
@@ -174,7 +177,7 @@ public class Tokenizer {
             p ++;
         }
         if(s.length() > 0){
-            isFlag = false;
+
             return new DoubleToken(Double.parseDouble(s));
         }
         return null; // empty double
@@ -188,7 +191,7 @@ public class Tokenizer {
             p ++;
         }
         if(digits.length() > 0){
-            isFlag = false;
+
             return new IntToken(Integer.parseInt(digits));
         }
         return null; // empty digits
@@ -198,6 +201,11 @@ public class Tokenizer {
     }
     public Token readToken() throws TokenizerException{
         Token res = null;
+
+        res = tokenizeString();
+        if(res != null){
+            return res;
+        }
         res = tokenizeNumber();
         if(res != null){
             return res;
