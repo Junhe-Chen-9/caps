@@ -33,13 +33,15 @@ public class LexerTest {
     }
     @Test
     public void testTokenizeStmt() throws TokenizerException {
-        final Token[] tokens = Tokenizer.tokenize("s IS stringvalue");
+        final Token[] tokens = Tokenizer.tokenize("s IS \"stringvalue\"");
         final Token[] expected = new Token[]{
                 new IdentifierToken("s"),
                 new IsToken(),
-                new StringToken("stringvalue")
+                new StringStartToken(),
+                new StringToken("stringvalue"),
+                new StringEndToken()
         };
-        assertArrayEquals(tokens,expected);
+        assertArrayEquals(expected,tokens);
     }
 
 
@@ -199,11 +201,13 @@ public class LexerTest {
 
     @Test
     public void testTokenizePrint() throws TokenizerException {
-        final Token[] tokens = Tokenizer.tokenize("x IS foo; PRINT (x);");
+        final Token[] tokens = Tokenizer.tokenize("x IS \"foo\"; PRINT (x);");
         final Token[] expected = new Token[]{
                 new IdentifierToken("x"),
                 new IsToken(),
+                new StringStartToken(),
                 new StringToken("foo"),
+                new StringEndToken(),
                 new SemicolonToken(),
                 new PrintToken(),
                 new LeftParenToken(),
@@ -218,6 +222,7 @@ public class LexerTest {
     public void testTokenizeSingleDigitInt() {
         assertEquals(new IntToken(1), new IntToken(1));
     }
+
 
     @Test
     public void testTokenizeMultiDigitInt() {
@@ -238,49 +243,56 @@ public class LexerTest {
     }
 
 
-    /* this is not in grammar so it should not be tested
+
     @Test
     public void testTokenizeStringSingleWord() throws TokenizerException {
-        final Token[] tokens = Tokenizer.tokenize("hello");
+        final Token[] tokens = Tokenizer.tokenize("\"hello\"");
         final Token[] expected = new Token[]{
-                new StringToken("hello")
+                new StringStartToken(),
+                new StringToken("hello"),
+                new StringEndToken()
         };
         assertArrayEquals(tokens,expected);
     }
 
-
-    @Test
-    public void testTokenizeStringMultipleWords() throws TokenizerException {
-        final Token[] tokens = Tokenizer.tokenize("hello world");
-        final Token[] expected = new Token[]{
-                new StringToken("hello world")
-        };
-        assertArrayEquals(tokens,expected);
+    @Test(expected = TokenizerException.class)
+    public void testCannotTokenize() throws TokenizerException {
+        Tokenizer.tokenize("$");
     }
 
-    @Test
-    public void testTokenizeStringWithInt() throws TokenizerException {
-        final Token[] tokens = Tokenizer.tokenize("May 19");
-        final Token[] expected = new Token[]{
-                new StringToken("May 19")
-        };
-        assertArrayEquals(tokens,expected);
-    }
+    /* this is not in grammar so it should not be tested
+   @Test
+   public void testTokenizeStringMultipleWords() throws TokenizerException {
+       final Token[] tokens = Tokenizer.tokenize("hello world");
+       final Token[] expected = new Token[]{
+               new StringToken("hello world")
+       };
+       assertArrayEquals(tokens,expected);
+   }
 
-    @Test
-    public void testTokenizeLowercaseReservedWords() throws TokenizerException {
-        final Token[] tokens = Tokenizer.tokenize("define");
-        final Token[] expected = new Token[]{
-                new StringToken("define")
-        };
-        assertArrayEquals(tokens,expected);
-    }
+   @Test
+   public void testTokenizeStringWithInt() throws TokenizerException {
+       final Token[] tokens = Tokenizer.tokenize("May 19");
+       final Token[] expected = new Token[]{
+               new StringToken("May 19")
+       };
+       assertArrayEquals(tokens,expected);
+   }
+
+   @Test
+   public void testTokenizeLowercaseReservedWords() throws TokenizerException {
+       final Token[] tokens = Tokenizer.tokenize("define");
+       final Token[] expected = new Token[]{
+               new StringToken("define")
+       };
+       assertArrayEquals(tokens,expected);
+   }
 
 
-     */
+    */
     @Test
     public void testTokenizeIfTrueString() throws TokenizerException {
-        final Token[] tokens = Tokenizer.tokenize("IF(TRUE) {name EQUALS Bob;}");
+        final Token[] tokens = Tokenizer.tokenize("IF(TRUE) {name EQUALS \"Bob\";}");
         final Token[] expected = new Token[]{
                 new IfToken(),
                 new LeftParenToken(),
@@ -289,12 +301,14 @@ public class LexerTest {
                 new LeftBracketToken(),
                 new IdentifierToken("name"),
                 new EqualsToken(),
+                new StringStartToken(),
                 new StringToken("Bob"),
+                new StringEndToken(),
                 new SemicolonToken(),
                 new RightBracketToken(),
         };
         assertArrayEquals(tokens,expected);
     }
-    // TODO: String token 
+
 }
 

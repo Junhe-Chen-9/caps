@@ -68,3 +68,6 @@ Possible Tokens:
 - PrintToken : 25
 - EqualsToken : 26
 - GreaterThanToken : 27
+- StringStartToken : 28
+- StringEndToken : 29
+- CallToken : 30

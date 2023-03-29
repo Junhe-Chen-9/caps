@@ -9,7 +9,29 @@ public class Tokenizer {
     private int p; // position where we are at right now
     private final HashMap<String,Token> SYMBOLS = new HashMap<>();
     private final HashMap<String,Token> KEYWORDS = new HashMap<>();
-    private boolean isFlag;
+    boolean isString = false;
+    private Token tokenizeString(){
+
+        if(input.substring(p).startsWith("\"")){
+            if(isString){
+                isString = false;
+                p ++;
+                return new StringEndToken();
+            }
+            isString = true;
+            p ++;
+            return new StringStartToken();
+        }else{
+            if(isString){
+                int end = p;
+                while(end < input.length() && input.charAt(end) != '\"') end ++;
+                int start = p;
+                p = end;
+                return new StringToken(input.substring(start,end));
+            }
+        }
+        return null;
+    }
     public Token tokenizeSymbol(){
         /* to get add more symbol easier in the future we can use hash map
         if(input.startsWith("(")){
@@ -57,7 +79,6 @@ public class Tokenizer {
     public Tokenizer(final String s){
         this.input = s;
         p = 0;
-        isFlag = false;
         // add SYMBOLS
         SYMBOLS.put("(",new LeftParenToken());
         SYMBOLS.put(")",new RightParenToken());
@@ -74,6 +95,21 @@ public class Tokenizer {
         SYMBOLS.put(">",new GreaterThanToken());
 
         // add KEYWORDS
+        KEYWORDS.put("NUMBER",new NumberToken());
+        KEYWORDS.put("BOOLEAN",new BooleanToken());
+        KEYWORDS.put("IS",new IsToken());
+        KEYWORDS.put("IF",new IfToken());
+        KEYWORDS.put("RETURNS",new ReturnsToken());
+        KEYWORDS.put("ELSE",new ElseToken());
+        KEYWORDS.put("DEFINE",new DefineToken());
+        KEYWORDS.put("STRING",new StrToken());
+        KEYWORDS.put("WHILE",new WhileToken());
+        KEYWORDS.put("EXECUTES",new ExecutesToken());
+        KEYWORDS.put("PRINT",new PrintToken());
+        KEYWORDS.put("EQUALS",new EqualsToken());
+        KEYWORDS.put("TRUE",new TrueToken());
+        KEYWORDS.put("FALSE",new FalseToken());
+        KEYWORDS.put("CALL",new CallToken());
         // we can do same thing for the key words that way it is easier to add and remove key words
 
     }
@@ -90,58 +126,14 @@ public class Tokenizer {
 
             // now you read the identifier or reserved word
             // check against all our tokens possibility
-            if(name.equals("NUMBER")){
-                return new NumberToken();
-            }else if(name.equals("BOOLEAN")){
-                return new BooleanToken();
-            }else if(name.equals("IS")){
-                // this is a tricky situation
-                // make sure we are tokening next token as string or as value
-                isFlag = true;
-                return new IsToken();
-            } else if(name.equals("IF")){
-                return new IfToken();
-            }else if (name.equals("RETURNS")){
-                return new ReturnsToken();
-            }else if (name.equals("ELSE")){
-                return new ElseToken();
-            }else if(name.equals("DEFINE")){
-                return new DefineToken();
-            }else if(name.equals("STRING")){
-                return new StrToken();
-            }else if(name.equals("WHILE")){
-                return new WhileToken();
-            }else if(name.equals("EXECUTES")){
-                return new ExecutesToken();
-            }else if(name.equals("PRINT")){
-                return new PrintToken();
-            }else if(name.equals("EQUALS")){
-                isFlag = true; // because equals should follow by an exp or variable
-                return new EqualsToken();
-            }else if(name.equals("TRUE")){
-                return new TrueToken();
-            }else if(name.equals("FALSE")){
-                return new FalseToken();
-            }
-
-            else{
-                if(isFlag){
-                    isFlag = false;
-                    int temp = p;
-                    while(temp < input.length() && input.charAt(temp) == ' ') temp++;
-                    if(temp < input.length()){
-                        for(final String symbol : SYMBOLS.keySet()){
-                            if(symbol.equals(";")) continue;
-                            if(input.substring(temp).startsWith(symbol)){
-                                return new IdentifierToken(name);
-                            }
-                        }
-                    }
-                    return new StringToken(name);
-                }else{
-                    return new IdentifierToken(name);
+            for(String w : KEYWORDS.keySet()){
+                if(name.equals(w)){
+                    return KEYWORDS.get(name);
                 }
             }
+
+            return new IdentifierToken(name);
+
 
             //TODO add more else if to cover all tokens
         }else{
@@ -174,7 +166,7 @@ public class Tokenizer {
             p ++;
         }
         if(s.length() > 0){
-            isFlag = false;
+
             return new DoubleToken(Double.parseDouble(s));
         }
         return null; // empty double
@@ -188,7 +180,7 @@ public class Tokenizer {
             p ++;
         }
         if(digits.length() > 0){
-            isFlag = false;
+
             return new IntToken(Integer.parseInt(digits));
         }
         return null; // empty digits
@@ -198,6 +190,11 @@ public class Tokenizer {
     }
     public Token readToken() throws TokenizerException{
         Token res = null;
+
+        res = tokenizeString();
+        if(res != null){
+            return res;
+        }
         res = tokenizeNumber();
         if(res != null){
             return res;
