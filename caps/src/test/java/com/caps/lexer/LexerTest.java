@@ -247,7 +247,9 @@ public class LexerTest {
     public void testTokenizeStringSingleWord() throws TokenizerException {
         final Token[] tokens = Tokenizer.tokenize("\"hello\"");
         final Token[] expected = new Token[]{
-                new StringToken("hello")
+                new StringStartToken(),
+                new StringToken("hello"),
+                new StringEndToken()
         };
         assertArrayEquals(tokens,expected);
     }
@@ -284,7 +286,7 @@ public class LexerTest {
     */
     @Test
     public void testTokenizeIfTrueString() throws TokenizerException {
-        final Token[] tokens = Tokenizer.tokenize("IF(TRUE) {name EQUALS Bob;}");
+        final Token[] tokens = Tokenizer.tokenize("IF(TRUE) {name EQUALS \"Bob\";}");
         final Token[] expected = new Token[]{
                 new IfToken(),
                 new LeftParenToken(),
@@ -293,12 +295,14 @@ public class LexerTest {
                 new LeftBracketToken(),
                 new IdentifierToken("name"),
                 new EqualsToken(),
+                new StringStartToken(),
                 new StringToken("Bob"),
+                new StringEndToken(),
                 new SemicolonToken(),
                 new RightBracketToken(),
         };
         assertArrayEquals(tokens,expected);
     }
-    // TODO: String token
+
 }
 
