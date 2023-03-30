@@ -58,7 +58,7 @@ public class Tokenizer {
             return new LessThanToken();
         }else if(input.startsWith("/")){
             p ++;
-            return new FowardSlashToken();
+            return new ForwardSlashToken();
         }else if(input.startsWith("&&")){
             p +=2;
             return new LogicalAndToken();
@@ -86,7 +86,8 @@ public class Tokenizer {
         SYMBOLS.put("}",new RightBracketToken());
         SYMBOLS.put("+", new PlusToken());
         SYMBOLS.put("-",new MinusToken());
-        SYMBOLS.put("/", new FowardSlashToken());
+        SYMBOLS.put("/", new ForwardSlashToken());
+        SYMBOLS.put("*",new AsteriskToken());
         SYMBOLS.put("||",new LogicalOrToken());
         SYMBOLS.put("&&", new LogicalAndToken());
         SYMBOLS.put("<",new LessThanToken());
