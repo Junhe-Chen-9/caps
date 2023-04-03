@@ -1,9 +1,9 @@
 package com.caps.lexer;
 
-public class FowardSlashToken implements Token{
+public class ForwardSlashToken implements Token{
     @Override
     public boolean equals(final Object other){
-        return other instanceof FowardSlashToken;
+        return other instanceof ForwardSlashToken;
     }
     @Override
     public int hashCode(){
@@ -12,6 +12,6 @@ public class FowardSlashToken implements Token{
 
     @Override
     public String toString() {
-        return "FowardSlashToken{}";
+        return "ForwardSlashToken{}";
     }
 }

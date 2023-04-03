@@ -50,7 +50,7 @@ public class LexerTest {
 
     @Test
     public void testTokenizeOp() throws TokenizerException {
-        final Token[] tokens = Tokenizer.tokenize("IF ((x < 1) && (y < 2) || (x EQUALS 10)) {x--;} ELSE {y++;}");
+        final Token[] tokens = Tokenizer.tokenize("IF ((x < 1) && (y < 2) || (x EQUALS 10)) {x EQUALS x - 1;} ELSE {y EQUALS y + 1;}");
         final Token[] expected = new Token[]{
                 new IfToken(),
                 new LeftParenToken(),
@@ -74,15 +74,19 @@ public class LexerTest {
                 new RightParenToken(),
                 new LeftBracketToken(),
                 new IdentifierToken("x"),
+                new EqualsToken(),
+                new IdentifierToken("x"),
                 new MinusToken(),
-                new MinusToken(),
+                new IntToken(1),
                 new SemicolonToken(),
                 new RightBracketToken(),
                 new ElseToken(),
                 new LeftBracketToken(),
                 new IdentifierToken("y"),
+                new EqualsToken(),
+                new IdentifierToken("y"),
                 new PlusToken(),
-                new PlusToken(),
+                new IntToken(1),
                 new SemicolonToken(),
                 new RightBracketToken(),
         };
@@ -115,7 +119,7 @@ public class LexerTest {
 
     @Test
     public void testTokenizeWhile() throws TokenizerException {
-        final Token[] tokens = Tokenizer.tokenize("WHILE (x IS 2) {x++;}");
+        final Token[] tokens = Tokenizer.tokenize("WHILE (x IS 2) {x EQUALS x + 1;}");
         final Token[] expected = new Token[]{
                 new WhileToken(),
                 new LeftParenToken(),
@@ -125,8 +129,10 @@ public class LexerTest {
                 new RightParenToken(),
                 new LeftBracketToken(),
                 new IdentifierToken("x"),
+                new EqualsToken(),
+                new IdentifierToken("x"),
                 new PlusToken(),
-                new PlusToken(),
+                new IntToken(1),
                 new SemicolonToken(),
                 new RightBracketToken()
         };
@@ -173,7 +179,7 @@ public class LexerTest {
                 new ReturnsToken(),
                 new LeftParenToken(),
                 new IdentifierToken("x"),
-                new FowardSlashToken(),
+                new ForwardSlashToken(),
                 new IntToken(2),
                 new RightParenToken(),
                 new EqualsToken(),
@@ -366,6 +372,49 @@ public class LexerTest {
                 new RightBracketToken(),
         };
         assertArrayEquals(tokens,expected);
+    }
+
+    @Test
+    public void testTokenizeHigherOrderFunctionCall() throws TokenizerException {
+        final Token[] tokens = Tokenizer.tokenize("f IS (x) EXECUTES x * 2; retval IS CALL f (2);");
+        final Token[] expected = new Token[]{
+                new IdentifierToken("f"),
+                new IsToken(),
+                new LeftParenToken(),
+                new IdentifierToken("x"),
+                new RightParenToken(),
+                new ExecutesToken(),
+                new IdentifierToken("x"),
+                new AsteriskToken(),
+                new IntToken(2),
+                new SemicolonToken(),
+                new IdentifierToken("retval"),
+                new IsToken(),
+                new CallToken(),
+                new IdentifierToken("f"),
+                new LeftParenToken(),
+                new IntToken(2),
+                new RightParenToken(),
+                new SemicolonToken(),
+        };
+        assertArrayEquals(expected,tokens);
+    }
+
+    @Test
+    public void testTokenizeFalse() throws TokenizerException {
+        final Token[] tokens = Tokenizer.tokenize("IF(x > 5) RETURNS FALSE;");
+        final Token[] expected = new Token[]{
+                new IfToken(),
+                new LeftParenToken(),
+                new IdentifierToken("x"),
+                new GreaterThanToken(),
+                new IntToken(5),
+                new RightParenToken(),
+                new ReturnsToken(),
+                new FalseToken(),
+                new SemicolonToken()
+        };
+        assertArrayEquals(expected,tokens);
     }
 
 }
