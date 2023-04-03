@@ -22,6 +22,7 @@
 /Users/junhechen/Desktop/classes/curr/comp430/caps/caps/src/main/java/com/caps/lexer/BooleanToken.java
 /Users/junhechen/Desktop/classes/curr/comp430/caps/caps/src/main/java/com/caps/lexer/CommaToken.java
 /Users/junhechen/Desktop/classes/curr/comp430/caps/caps/src/main/java/com/caps/lexer/DefineToken.java
+/Users/junhechen/Desktop/classes/curr/comp430/caps/caps/src/main/java/com/caps/parser/Type.java
 /Users/junhechen/Desktop/classes/curr/comp430/caps/caps/src/main/java/com/caps/lexer/ReturnsToken.java
 /Users/junhechen/Desktop/classes/curr/comp430/caps/caps/src/main/java/com/caps/lexer/IdentifierToken.java
 /Users/junhechen/Desktop/classes/curr/comp430/caps/caps/src/main/java/com/caps/lexer/GreaterThanToken.java

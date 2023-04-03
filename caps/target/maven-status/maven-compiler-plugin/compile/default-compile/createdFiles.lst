@@ -1,3 +1,4 @@
+com/caps/parser/Type.class
 com/caps/lexer/RightBracketToken.class
 com/caps/lexer/LeftBracketToken.class
 com/caps/lexer/StrToken.class
