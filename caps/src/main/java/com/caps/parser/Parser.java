@@ -32,17 +32,17 @@ public class Parser {
     public ParseResult<Type> parseType(int p) throws ParseException {
         final Token token = getToken(p);
 
-        if(tokens.length > 0 && token instanceof IntToken){
+        if(p < tokens.length && token instanceof IntToken){
             p ++;
-            return new ParseResult<>(new IntType(), p + 1);
+            return new ParseResult<>(new IntType(), p);
         }
-        else if(tokens.length > 0 && token instanceof BooleanToken){
+        else if(p < tokens.length  && token instanceof BooleanToken){
             p ++;
-            return new ParseResult<>(new BoolType(), p + 1);
+            return new ParseResult<>(new BoolType(), p);
         }
-        else if(tokens.length > 0 && token instanceof StringToken) {
+        else if(p < tokens.length  && token instanceof StringToken) {
             p++;
-            return new ParseResult<>(new StrType(), p + 1);
+            return new ParseResult<>(new StrType(), p);
         }
         else {
             throw new ParseException("Expected type; received: " + token);
