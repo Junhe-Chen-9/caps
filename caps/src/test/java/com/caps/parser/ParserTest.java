@@ -13,10 +13,23 @@ public class ParserTest {
     }
 
     @Test
-    public void testParseIntType(){
-        final Token[] input = new Token[]{
+    public void testParseIntType() throws ParseException{
+        final Token[] input = new Token[] {
                 new IntToken(777)
         };
-        assertEquals(new IntType(),Parser.parse(input));
+        final Parser parser = new Parser(input, 0);
+        assertEquals(new ParseResult<Type>(new IntType(), 1), parser.parseType(0));
     }
+
+    @Test
+    public void testParseStrType() throws ParseException{
+        final Token[] input = new Token[] {
+                new StringToken("hello")
+        };
+        final Parser parser = new Parser(input, 0);
+        assertEquals(new ParseResult<Type>(new StrType(), 1), parser.parseType(0));
+    }
+
+
+
 }
