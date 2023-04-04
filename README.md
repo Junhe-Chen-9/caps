@@ -71,3 +71,36 @@ Possible Tokens:
 - StringStartToken : 28
 - StringEndToken : 29
 - CallToken : 30
+
+## AST Deefinition ##
+interface Type
+- class IntType : 0
+- class BoolType : 1
+- class StrType : 2
+
+interface Stmt
+- class IsStmt
+- class LoopStmt
+- class CallStmt
+- class PrintStmt
+- class ExcuteStmt
+
+interface Exp
+- class NumberLiteralExp
+- class BooleanLiteralExp
+- class VariableExp
+- class BinaryOperatorExp
+- class ReturnExp
+
+interface Op
+- class PlusOp : 3
+- class MinusOp : 4 
+- class LogicalAndOp : 5
+- class LogicalOrop : 6 
+- class LessThanOp : 7
+- class GreaterThanOp : 8
+- class DivideOp : 9
+- class MultOp : 10
+
+class Program
+
