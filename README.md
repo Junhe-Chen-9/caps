@@ -6,20 +6,22 @@ string is a string
 number is a number (integer or double)
 methodname is the name of a method
 vars ::= [var (`,` var)* ] list of variables
-type::= `STRING` | `NUMBER` | `BOOLEAN` built-in datatypes 
-`(` types `)` `RETURNS` type higher-order function type
+type::= `BOOLEAN` | `NUMBER` | `STRING` built-in datatypes 
+        `(` types `)` `RETURNS` type higher-order function type
 types::= [type (`,` type)*] list of types
-op ::= `+` | `-` | `*` | `/` | `&&` | `||` | `<` arithmetic operations
+op ::= `+` | `-` | `*` | `/` |  arithmetic operations
+        `&&` | `||` |  logical operations
+         `<` | `>`   comparison operations
 exp ::= var | string | number variables, strings, and numbers are expressions
 	exp op exp arithmetic expressions
 	`PRINT` exp prints to the terminal, returns a number
 	`CALL` exp `(` exps `)` calls higher-order function with parameters
-`(` vars `)` `EXECUTES` exp defines higher-order functions
-`(` exp `)` parenthesized expressions 
-stmt ::= var `IS` exp`;` | `RETURNS` exp`;` | exp`;` | 
-`{` stmt* `}`|  statement blocks 
-`IF` `(` exp `)` stmt `ELSE` `stmt` | if-else statements
-`WHILE` `(` exp `)` stmt  loop statements
+        `(` vars `)` `EXECUTES` exp defines higher-order functions
+        `(` exp `)` parenthesized expressions 
+stmt ::= exp`;` | var `IS` exp`;` | `RETURNS` exp`;` | 
+        `{` stmt* `}`|  statement blocks 
+        `IF` `(` exp `)` stmt `ELSE` `stmt` | if-else statements
+        `WHILE` `(` exp `)` stmt  loop statements
 param::= type var
 params ::= [param (`,` param)*] list of parameters
 Methoddef ::= `DEFINE` type methodname `(` params `)` `{` stmt* `}`
