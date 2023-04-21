@@ -76,7 +76,7 @@ Possible Tokens:
 
 ## AST Deefinition ##
 interface Type
-- class IntType : 0
+- class IntType / NumberType: 0
 - class BoolType : 1
 - class StrType : 2
 

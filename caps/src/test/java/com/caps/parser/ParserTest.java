@@ -30,6 +30,19 @@ public class ParserTest {
         assertEquals(new ParseResult<Type>(new StrType(), 1), parser.parseType(0));
     }
 
+    // 1 + 10
 
-
+    @Test
+    public void testAddExp() throws ParseException {
+        final Token [] input = new Token[] {
+                new IntToken(1),
+                new PlusToken(),
+                new IntToken(10)
+        };
+        final Parser parser = new Parser(input, 0);
+        assertEquals(new ParseResult<Exp>(new IntType(), new PlusOp(), new IntType()), parser.parseType(0));
+    }
 }
+
+
+
