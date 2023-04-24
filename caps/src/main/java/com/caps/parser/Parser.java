@@ -2,6 +2,8 @@ package com.caps.parser;
 
 import com.caps.lexer.*;
 
+import javax.management.StringValueExp;
+
 public class Parser {
     private final  Token[] tokens;
 
@@ -43,6 +45,38 @@ public class Parser {
         }
     }
 
+
+    /*exp ::= var | string | number variables, strings, and numbers are expressions
+    `PRINT` exp prints to the terminal, returns a number
+
+	todo: exp op exp arithmetic expressions
+	    `CALL` exp `(` exps `)` calls higher-order function with parameters
+        `(` vars `)` `EXECUTES` exp defines higher-order functions
+        `(` exp `)` parenthesized expressions */
+
+    public ParseResult<Exp> parseExp(final int p) throws ParseException {
+        final Token token = getToken(p);
+
+        if (token instanceof IdentifierToken) {
+            return new ParseResult<Exp>(new VariableExp(new Variable(((IdentifierToken) token).name)), p + 1);
+        } else if (token instanceof StrToken) {
+            return new ParseResult<Exp>(new StringExp(((StringToken) token).value), p + 1);
+        } else if (token instanceof NumberToken) {
+            return new ParseResult<Exp>(new NumberLiteralExp(((NumberToken) token).value), p + 1);
+        } else {
+            throw new ParseException("Expected type; received: " + token);
+        }
+    }
+
+    public ParseResult<Exp> parsePrint(final int p) throws ParseException {
+            assertTokenIs(p, new PrintToken());
+            final ParseResult<Exp> exp = parseExp(p + 1);
+            return new ParseResult<Exp>(new PrintExp(exp.result),  p + 1);
+        }
+
+
+
+
     /* Example from meeting with prof
     exps:=[exp(`,`exp)*]
     exp::= IDENTIFIER | IDENTIFIER `(` exps `)`
@@ -52,7 +86,7 @@ public class Parser {
         exp `;`
 
     public ParseResult<Stmt> parseStmt(final int p) throws ParseException {
-        final Token token getToken(p)
+        final Token token = getToken(p);
 
         try{
             assertTokenIs(getToken(p), new WhileToken());

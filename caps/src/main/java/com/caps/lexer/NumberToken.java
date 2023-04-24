@@ -2,11 +2,18 @@ package com.caps.lexer;
 
 
 public class NumberToken implements Token{
-    // default constructor
-    @Override
-    public boolean equals(final Object other){
-        return other instanceof NumberToken;
+    public final int value;
+
+    public NumberToken(final int value) {
+        this.value = value;
     }
+
+    @Override
+    public boolean equals(final Object other) {
+        return (other instanceof NumberToken &&
+                value == ((NumberToken)other).value);
+    }
+
     @Override
     public int hashCode(){
         return 20;
