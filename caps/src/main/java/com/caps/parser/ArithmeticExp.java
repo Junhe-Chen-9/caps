@@ -5,10 +5,10 @@ public class ArithmeticExp implements Exp {
     public final Op op;
     public final Exp right;
 
-    public ArithmeticExp(final Exp left, final Op op, final Exp right) {
-        this.left = left;
-        this.op = op;
-        this.right = right;
+    public ArithmeticExp(final Exp exp1, final Op op2, final Exp exp2) {
+        this.left = exp1;
+        this.op = op2;
+        this.right = exp2;
     }
 
     @Override

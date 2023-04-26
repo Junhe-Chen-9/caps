@@ -1,27 +1,39 @@
 package com.caps.parser;
 
+import java.util.List;
 
 public class CallExp implements Exp {
-    public final Exp exp;
+    public final Exp exp1;
+    public final List<Exp> exps;
 
-    public CallExp(final Exp exp) {
-        this.exp = exp;
+    public CallExp(final Exp exp1, final List<Exp> exps) {
+        this.exp1 = exp1;
+        this.exps = exps;
+
     }
 
     @Override
-    public boolean equals(final Object other) {
-        return (other instanceof CallExp &&
-                exp.equals(((CallExp)other).exp));
+    public boolean equals(Object other){
+        if(other instanceof CallExp){
+            final CallExp otherCallExp = (CallExp) other;
+            return otherCallExp.exp1 == exp1 && otherCallExp.exps == this.exps;
+        }else{
+            return false;
+        }
     }
+   
 
     @Override
     public int hashCode() {
-        return exp.hashCode();
+        return exp1.hashCode() +exps.hashCode();
     }
 
     @Override
     public String toString() {
-        return "CallExp(" + exp.toString() + ")";
+        return "CallExp(" + 
+        exp1.toString() + 
+        exps.toString() +
+        ")";
     }
 }
 
