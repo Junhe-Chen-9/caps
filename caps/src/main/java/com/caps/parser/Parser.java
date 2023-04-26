@@ -27,6 +27,17 @@ public class Parser {
         }
     }
 
+    // var is a variable
+    public ParseResult<Variable> parseVariable(final int p) throws ParseException {
+        final Token token = getToken(p);
+        if (token instanceof IdentifierToken) {
+            return new ParseResult<Variable>(new Variable(((IdentifierToken)token).name),
+                    p + 1);
+        } else {
+            throw new ParseException("Expected variable; received: " + token.toString());
+        }
+    }
+
     // type::= `STRING` | `NUMBER` | `BOOLEAN`
     public ParseResult<Type> parseType(final int p) throws ParseException {
         final Token token = getToken(p);
@@ -46,14 +57,7 @@ public class Parser {
     }
 
 
-    /*exp ::= var | string | number variables, strings, and numbers are expressions
-    `PRINT` exp prints to the terminal, returns a number
-
-	todo: exp op exp arithmetic expressions
-	    `CALL` exp `(` exps `)` calls higher-order function with parameters
-        `(` vars `)` `EXECUTES` exp defines higher-order functions
-        `(` exp `)` parenthesized expressions */
-
+    // exp ::= var | string | number variables, strings, and numbers are expressions
     public ParseResult<Exp> parseExp(final int p) throws ParseException {
         final Token token = getToken(p);
 
@@ -68,11 +72,75 @@ public class Parser {
         }
     }
 
+    //`PRINT` exp prints to the terminal, returns a number
     public ParseResult<Exp> parsePrint(final int p) throws ParseException {
-            assertTokenIs(p, new PrintToken());
-            final ParseResult<Exp> exp = parseExp(p + 1);
-            return new ParseResult<Exp>(new PrintExp(exp.result),  p + 1);
+        assertTokenIs(p, new PrintToken());
+        final ParseResult<Exp> exp = parseExp(p + 1);
+        return new ParseResult<Exp>(new PrintExp(exp.result), p + 1);
+    }
+
+    // exp op exp arithmetic expressions
+    public ParseResult<Exp> parseBinaryOp(final int p) throws ParseException {
+        final Token token = getToken(p);
+        final ParseResult<Exp> left = parseExp(p);
+        final ParseResult<Op> op = parseOp(p + 1);
+        final ParseResult<Exp> right = parseExp(p + 2);
+        return new ParseResult<Exp>(new ArithmeticExp(left.result, op.result, right.result), p + 1);
+    }
+
+    // `CALL` exp `(` exps `)` calls higher-order function with parameters
+    public ParseResult<Exp> parseCallHOF(final int p) throws ParseException {
+        final Token token = getToken(p);
+        assertTokenIs(p, new CallToken());
+        final ParseResult<Exp> exp = parseExp(p + 1);
+        assertTokenIs(p + 2, new LeftParenToken());
+        try {
+            ParseResult<Exp> expHOF = parseExp(p + 3);
+            // Recursive call?
+        } catch (final ParseException e) {
+            // do something...
         }
+        assertTokenIs(p + 1, new RightParenToken());
+        return new ParseResult<Exp>(new CallExp(exp.result), p + 1);
+    }
+
+
+    // `(` vars `)` `EXECUTES` exp defines higher-order functions
+    // `(` exp `)` parenthesized expressions*/
+    public ParseResult<Exp> parseDefineHOF(final int p) throws ParseException {
+        final Token token = getToken(p);
+        if (token instanceof LeftParenToken) {
+            try {
+                final ParseResult<Variable> var = parseVariable(p + 2);
+                // Recursive call?
+                assertTokenIs(p + 3, new RightParenToken());
+                assertTokenIs(p + 4, new ExecutesToken());
+                final ParseResult<Exp> exp = parseExp(p + 5);
+                return new ParseResult<Exp>(new ExecuteExp(exp.result), p + 1);
+            } catch (final ParseException e) {
+                // do something...
+            }
+            try {
+                final ParseResult<Exp> exp = parseExp(p + 2);
+                assertTokenIs(p + 3, new RightParenToken());
+                return new ParseResult<Exp>(new ParenthesizedExp(exp.result), p + 1);
+            } catch (final ParseException e) {
+                // do something...
+            }
+        } else {
+            throw new ParseException("Expected type; received: " + token);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -97,7 +165,7 @@ public class Parser {
         }
         catch (final ParseException e) {... }
         try {
-            if (token instance of identifierToken){
+            if (token instanceof identifierToken){
                 assertTokenIs(getToken(p + 1), new EqualsToken());
             }
         }
