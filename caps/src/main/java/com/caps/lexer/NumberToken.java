@@ -2,16 +2,15 @@ package com.caps.lexer;
 
 
 public class NumberToken implements Token{
-    public final int value;
 
-    public NumberToken(final int value) {
-        this.value = value;
+
+    public NumberToken() {
+
     }
 
     @Override
     public boolean equals(final Object other) {
-        return (other instanceof NumberToken &&
-                value == ((NumberToken)other).value);
+        return (other instanceof NumberToken);
     }
 
     @Override
