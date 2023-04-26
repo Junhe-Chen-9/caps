@@ -13,9 +13,9 @@ op ::= `+` | `-` | `*` | `/` |  arithmetic operations
         `&&` | `||` |  logical operations
          `<` | `>`   comparison operations
 exp ::= var | string | number variables, strings, and numbers are expressions
-	exp op exp arithmetic expressions
-	`PRINT` exp prints to the terminal, returns a number
-	`CALL` exp `(` exps `)` calls higher-order function with parameters
+	    exp op exp arithmetic expressions
+	    `PRINT` exp prints to the terminal, returns a number
+	    `CALL` exp `(` exps `)` calls higher-order function with parameters
         `(` vars `)` `EXECUTES` exp defines higher-order functions
         `(` exp `)` parenthesized expressions 
 stmt ::= exp`;` | var `IS` exp`;` | `RETURNS` exp`;` | 
@@ -91,8 +91,11 @@ interface Exp
 - class NumberLiteralExp
 - class BooleanLiteralExp
 - class VariableExp
-- class BinaryOperatorExp
+- class ArithmeticExp
 - class ReturnExp
+- class CallExp
+- class ExecuteExp
+- class ParenthesizedExp
 
 interface Op
 - class PlusOp : 3

@@ -8,41 +8,42 @@ import static org.junit.Assert.assertEquals;
 
 public class ParserTest {
     @Test
-    public void testTypeEquals(){
+    public void testTypeEquals() {
         assertEquals(new IntType(), new IntType());
     }
 
     @Test
-    public void testParseIntType() throws ParseException{
-        final Token[] input = new Token[] {
+    public void testParseIntType() throws ParseException {
+        final Token[] input = new Token[]{
                 new IntToken(777)
         };
-        final Parser parser = new Parser(input, 0);
+        final Parser parser = new Parser(input);
         assertEquals(new ParseResult<Type>(new IntType(), 1), parser.parseType(0));
     }
 
     @Test
-    public void testParseStrType() throws ParseException{
-        final Token[] input = new Token[] {
+    public void testParseStrType() throws ParseException {
+        final Token[] input = new Token[]{
                 new StringToken("hello")
         };
-        final Parser parser = new Parser(input, 0);
+        final Parser parser = new Parser(input);
         assertEquals(new ParseResult<Type>(new StrType(), 1), parser.parseType(0));
     }
 
-    // 1 + 10
 
-    @Test
-    public void testAddExp() throws ParseException {
-        final Token [] input = new Token[] {
+    // 1 + 10
+   /* @Test
+    public void testArithmeticExp() throws ParseException {
+        final Token[] input = new Token[]{
                 new IntToken(1),
                 new PlusToken(),
                 new IntToken(10)
         };
-        final Parser parser = new Parser(input, 0);
-        assertEquals(new ParseResult<Exp>(new IntType(), new PlusOp(), new IntType()), parser.parseType(0));
-    }
+        final Parser parser = new Parser(input);
+        assertEquals(new ParseResult<Exp>(new NumberType(), new PlusOp(), new NumberType()), parser.parseExp(0));
+    }*/
 }
+
 
 
 

@@ -9,6 +9,7 @@ public class ParseResult <A>{
         this.nextP = nextP;
     }
 
+
     @Override
     public boolean equals(final Object other){
         if (other instanceof ParseResult){
