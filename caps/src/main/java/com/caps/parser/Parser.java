@@ -5,8 +5,6 @@ import com.caps.lexer.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.management.StringValueExp;
-
 public class Parser {
     private final  Token[] tokens;
 
@@ -269,8 +267,6 @@ public class Parser {
     /*
      * Parse Variable
      */
-
-    
     public ParseResult<Variable> parseVariable(final int p) throws ParseException {
         try{
             return parseVars(p);
@@ -307,32 +303,92 @@ public class Parser {
             throw new ParseException("Expected variable; received: " + token.toString());
         }
     }
-
-    
-
-
-
     // END OF VARIABLE
 
 
+    /*
+    * Parse Type
+    */
 
     // type::= `STRING` | `NUMBER` | `BOOLEAN`
     public ParseResult<Type> parseType(final int p) throws ParseException {
         final Token token = getToken(p);
 
-        if(token instanceof NumberToken){
-            return new ParseResult<>(new NumberType(), p + 1);
-        }
-        else if(token instanceof BooleanToken){
-            return new ParseResult<>(new BoolType(), p + 1);
-        }
-        else if(token instanceof StringToken) {
-            return new ParseResult<>(new StrType(), p + 1);
-        }
-        else {
-            throw new ParseException("Expected type; received: " + token);
+        try{
+            return parseTypes(p);
+        } catch(ParseException e) {
+            if (token instanceof NumberToken) {
+                return new ParseResult<>(new NumberType(), p + 1);
+            } else if (token instanceof BooleanToken) {
+                return new ParseResult<>(new BoolType(), p + 1);
+            } else if (token instanceof StringToken) {
+                return new ParseResult<>(new StrType(), p + 1);
+            } else {
+                throw new ParseException("Expected type; received: " + token);
+            }
         }
     }
+
+    // types::= [type (`,` type)*] list of types
+    public ParseResult<Type> parseTypes(int p) throws ParseException {
+        boolean flag = true;
+        List<Type> types = new ArrayList<>();
+        while(flag){
+            try{
+                ParseResult<Type> typeCurr = parseType(p);
+                assertTokenIs(typeCurr.nextP, new CommaToken());
+                types.add(typeCurr.result);
+                p = typeCurr.nextP + 1;
+            }catch(ParseException e){
+                flag = false;
+            }
+        }
+        return new ParseResult<Type>(new BlockType(types), p);
+    }
+    // END OF TYPES
+
+
+    /*
+    * Parse Parameter
+    */
+    public ParseResult<Param> parseParameter(final int p) throws ParseException {
+        try{
+            return parseParams(p);
+        }catch(ParseException e1){
+            return parseParam(p);
+        }
+    }
+
+    // param::= type var
+    public ParseResult<Param> parseParam(final int p) throws ParseException {
+        ParseResult<Type> type = parseType(p);
+        ParseResult<Variable> var = parseVar(p + 1);
+        return new ParseResult<Param>(new Param(type.result, var.result), var.nextP);
+    }
+
+    // params ::= [param (`,` param)*] list of parameters
+    public ParseResult<Param> parseParams (int p) throws ParseException {
+        boolean flag = true;
+        List<Param> params = new ArrayList<>();
+        while (flag) {
+            try {
+                ParseResult<Param> paramCurr = parseParam(p);
+                assertTokenIs(paramCurr.nextP, new CommaToken());
+                params.add(paramCurr.result);
+                p = paramCurr.nextP + 1;
+            } catch (ParseException e) {
+                flag = false;
+            }
+        }
+        return new ParseResult<Param>(new BlockParam(params), p); //todo: fix this please!
+    }
+    // END OF PARAMETERS
+
+
+
+
+
+
 
 
     
