@@ -137,6 +137,15 @@ public class ParserTest {
             parser.parseStmt(0));
     }
     
+    @Test 
+    public void testParseStmt() throws ParseException, TokenizerException{
+        final Token[] input = Tokenizer.tokenize("WHILE ((x > 1)) RETURNS (x + 1);");
+        final Parser parser = new Parser(input);
+        assertEquals(new ParseResult<Stmt>(new WhileStmt(
+            new ArithmeticExp(new VariableExp(new SingleVariable("x")), new GreaterThanOp(), new NumberLiteralExp(1)),
+            new ReturnsStmt(new ArithmeticExp(new VariableExp(new SingleVariable("x")), new PlusOp(), new NumberLiteralExp(1))))
+            ,15),parser.parseStmt(0));
+    }
 
 }
 
