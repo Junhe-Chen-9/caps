@@ -14,7 +14,7 @@ public class ExecuteExp implements Exp {
     public boolean equals(final Object other){
         if(other instanceof ExecuteExp){
             final ExecuteExp otherExecuteExp = (ExecuteExp) other;
-            return otherExecuteExp.var == var && otherExecuteExp.exp == exp;
+            return otherExecuteExp.var.equals(var) && otherExecuteExp.exp.equals(exp);
         }else{
             return false;
         }

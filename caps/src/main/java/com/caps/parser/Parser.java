@@ -271,30 +271,34 @@ public class Parser {
      * Parse Variable
      */
     public ParseResult<Variable> parseVariable(final int p) throws ParseException {
-        /* 
         try{
             return parseVars(p);
         }catch(ParseException e1){
             return parseVar(p);
         }
-        */
-        return parseVar(p);
     }
 
-    //vars ::= [var (`,` var)* ] list of variables
+    //vars ::= {var (`,` var)* } list of variables
     public ParseResult<Variable> parseVars(int p) throws ParseException {
+        assertTokenIs(p, new LeftBracketToken());
+        p ++;
         boolean flag = true;
         List<Variable> vars = new ArrayList<>();
         while(flag){
             try{
                 ParseResult<Variable> varCurr = parseVar(p);
-                assertTokenIs(varCurr.nextP, new CommaToken());
                 vars.add(varCurr.result);
+                p = varCurr.nextP;
+                assertTokenIs(varCurr.nextP, new CommaToken());
                 p = varCurr.nextP + 1;
             }catch(ParseException e){
                 flag = false;
+
             }
+
         }
+        assertTokenIs(p, new RightBracketToken());
+        p ++;
         return new ParseResult<Variable>(new BlockVar(vars), p);
     }
 

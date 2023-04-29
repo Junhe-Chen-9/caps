@@ -16,7 +16,7 @@ public class CallExp implements Exp {
     public boolean equals(Object other){
         if(other instanceof CallExp){
             final CallExp otherCallExp = (CallExp) other;
-            return otherCallExp.exp1 == exp1 && otherCallExp.exps == this.exps;
+            return otherCallExp.exp1.equals(exp1) && otherCallExp.exps.equals(exps);
         }else{
             return false;
         }

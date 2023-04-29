@@ -156,6 +156,67 @@ public class ParserTest {
                                           parser.parseArithmeticExpressions(0));
     }
 
+    @Test
+    public void testparseArithmeticExpressions1() throws ParseException, TokenizerException {
+        final Token[] input = Tokenizer.tokenize("(x + y)");
+        final Parser parser = new Parser(input);
+        assertEquals(new ParseResult<Exp>(new ArithmeticExp(new VariableExp(new SingleVariable("x")), new PlusOp(), new VariableExp(new SingleVariable("y"))),5),
+                                          parser.parseArithmeticExpressions(0));
+    }
+
+    //`(` `{`vars* `}` `)` `EXECUTES` exp defines higher-order functions
+    @Test 
+    public void testparseExecuteExp() throws ParseException, TokenizerException {
+        final Token[] input = Tokenizer.tokenize("({x,y}) EXECUTES (x + y)");
+        final Parser parser = new Parser(input);
+        assertEquals(new ParseResult<Exp>(new ExecuteExp(new BlockVar(List.of(new SingleVariable("x"), new SingleVariable("y"))),new ArithmeticExp(new VariableExp(new SingleVariable("x")), new PlusOp(), new VariableExp(new SingleVariable("y"))))
+            ,13),
+                                          parser.parseExecuteExp(0));
+    }
+
+    //`PRINT` exp prints to the terminal, returns a number
+    @Test
+    public void testParsePrintExp() throws ParseException, TokenizerException {
+        final Token[] input = Tokenizer.tokenize("PRINT (x + y)");
+        final Parser parser = new Parser(input);
+        assertEquals(new ParseResult<>(new PrintExp(new ArithmeticExp(new VariableExp(new SingleVariable("x")), new PlusOp(), new VariableExp(new SingleVariable("y")))), 6), parser.parsePrint(0));
+    }
+
+    // `CALL` exp `(` exps `)` calls higher-order function with parameters
+    @Test
+    public void testparseCallExp() throws ParseException, TokenizerException {
+        final Token[] input = Tokenizer.tokenize("CALL f(2)");
+        final Parser parser = new Parser(input);
+        assertEquals(new ParseResult<>(new CallExp(new VariableExp(new SingleVariable("f")), List.of(new NumberLiteralExp(2))), 5), parser.parseCallExp(0));
+    }
+
+    @Test
+    public void testparExp() throws ParseException, TokenizerException {
+        final Token[] input = Tokenizer.tokenize("CALL f(2)");
+        final Parser parser = new Parser(input);
+        assertEquals(new ParseResult<>(new CallExp(new VariableExp(new SingleVariable("f")), List.of(new NumberLiteralExp(2))), 5), parser.parseExp(0));
+    }
+
+
+    /*
+     * parse variables
+     */
+
+    // `{` vars `}`
+    @Test 
+    public void testParseVars() throws ParseException, TokenizerException {
+        final Token[] input = Tokenizer.tokenize("{x,y}");
+        final Parser parser = new Parser(input);
+        assertEquals(new ParseResult<Variable>(new BlockVar(List.of(new SingleVariable("x"), new SingleVariable("y"))), 5),parser.parseVars(0));
+    }
+
+    @Test 
+    public void testParseVariable() throws ParseException, TokenizerException {
+        final Token[] input = Tokenizer.tokenize("{x,y}");
+        final Parser parser = new Parser(input);
+        assertEquals(new ParseResult<Variable>(new BlockVar(List.of(new SingleVariable("x"), new SingleVariable("y"))), 5),parser.parseVariable(0));
+    }
+
 }
 
 
