@@ -73,16 +73,69 @@ public class ParserTest {
         final Parser parser = new Parser(input);
         assertEquals(new ParseResult<>(new VariableExp(new SingleVariable("x")), 1),parser.parseExpVar(0));
     }
+
+    @Test 
+    public void testParseOp() throws ParseException, TokenizerException {
+        final Token[] input = Tokenizer.tokenize("+");
+        final Parser parser = new Parser(input);
+        assertEquals(new ParseResult<Op>(new PlusOp(),1),
+                                          parser.parseOp(0));
+    }
     @Test
-    public void TestparseArithmeticExpressions() throws ParseException, TokenizerException {
+    public void testparseArithmeticExpressions() throws ParseException, TokenizerException {
         final Token[] input = Tokenizer.tokenize("(x + 1)");
         final Parser parser = new Parser(input);
         assertEquals(new ParseResult<Exp>(new ArithmeticExp(new VariableExp(new SingleVariable("x")), new PlusOp(), new NumberLiteralExp(1)),5),
                                           parser.parseArithmeticExpressions(0));
     }
-
     
+    // loop ::= `WHILE` `(` exp `)` stmt  loop statements
+    @Test 
+    public void testparseloop() throws ParseException, TokenizerException{
+        final Token[] input = Tokenizer.tokenize("WHILE ((x > 1)) RETURNS 1;");
+        final Parser parser = new Parser(input);
+        assertEquals(new ParseResult<Stmt>(new WhileStmt(
+            new ArithmeticExp(new VariableExp(new SingleVariable("x")), new GreaterThanOp(), new NumberLiteralExp(1)),
+            new ReturnsStmt(new NumberLiteralExp(1)))
+            ,11),
+                                          parser.parseLoop(0));
+    }
 
+    //`IF` `(` exp `)` stmt `ELSE` `stmt` | if-else statements
+    @Test
+    public void testParseIf() throws ParseException, TokenizerException{
+        final Token[] input = Tokenizer.tokenize("IF ((x < 2)) RETURNS 2; ELSE RETURNS 5;");
+        final Parser parser = new Parser(input);
+        assertEquals(new ParseResult<Stmt>(
+            new IfElseStmt(new ArithmeticExp(new VariableExp(new SingleVariable("x")), new LessThanOp(), new NumberLiteralExp(2)),
+             new ReturnsStmt(new NumberLiteralExp(2)), 
+             new ReturnsStmt(new NumberLiteralExp(5)))
+            ,15),
+                                          parser.parseIf(0));
+    }
+
+    @Test
+    public void testParseStmts() throws ParseException, TokenizerException{
+        final Token[] input = Tokenizer.tokenize("{ x IS 5; y IS 2;}");
+        final Parser parser = new Parser(input);
+        List<Stmt> list = new ArrayList<>();
+        list.add(new VardecStmt(new SingleVariable("x"), new NumberLiteralExp(5)));
+        list.add(new VardecStmt(new SingleVariable("y"), new NumberLiteralExp(2)));
+        assertEquals(new ParseResult<Stmt>(
+            new BlockStmt(list)
+            ,10),
+                                          parser.parseStmts(0));
+    }
+
+    @Test 
+    public void testParseSingleStmt() throws ParseException, TokenizerException{
+        final Token[] input = Tokenizer.tokenize("5;");
+        final Parser parser = new Parser(input);
+        assertEquals(new ParseResult<Stmt>(
+            new ExpStmt(new NumberLiteralExp(5))
+            ,2),
+            parser.parseStmt(0));
+    }
     
 
 }

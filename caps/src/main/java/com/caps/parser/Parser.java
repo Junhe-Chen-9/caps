@@ -242,7 +242,7 @@ public class Parser {
     public ParseResult<Exp> parseArithmeticExpressions(final int p) throws ParseException{
         assertTokenIs(p, new LeftParenToken());
         ParseResult<Exp> exp1 = parseExp(p + 1);
-        ParseResult<Op> op = parseOp(exp1.nextP); // assume op is going to be parsed correcttly for now TODO: werid problem here
+        ParseResult<Op> op = parseOp(exp1.nextP); // assume op is going to be parsed correcttly for now 
         ParseResult<Exp> exp2 = parseExp(op.nextP);
         assertTokenIs(exp2.nextP, new RightParenToken());
         return new ParseResult<Exp>(new ArithmeticExp(exp1.result,op.result,exp2.result), exp2.nextP + 1);
@@ -252,7 +252,8 @@ public class Parser {
     public ParseResult<Exp> parseExpVar(final int p) throws ParseException{
         final Token token = getToken(p);
         if (token instanceof IdentifierToken) {
-            return new ParseResult<Exp>(new VariableExp(new SingleVariable(((IdentifierToken) token).name)), p + 1);
+            ParseResult<Variable> var = parseVariable(p);
+            return new ParseResult<Exp>(new VariableExp(var.result),var.nextP);
         } else if (token instanceof StrToken) {
             return new ParseResult<Exp>(new StringExp(((StringToken) token).value), p + 1);
         } else if (token instanceof IntToken) {
@@ -466,7 +467,7 @@ public class Parser {
         }
 
         assert(op != null);
-        return new ParseResult<Op>(op, p);
+        return new ParseResult<Op>(op, p + 1);
 
     }
 

@@ -15,7 +15,7 @@ public class IfElseStmt implements Stmt{
     public boolean equals(final Object other){
         if(other instanceof IfElseStmt){
             final IfElseStmt otherIfElseStmt = (IfElseStmt) other;
-            return otherIfElseStmt.exp == exp && otherIfElseStmt.ifBody == ifBody && otherIfElseStmt.elseBody == elseBody;
+            return otherIfElseStmt.exp.equals(exp) && otherIfElseStmt.ifBody.equals(ifBody) && otherIfElseStmt.elseBody.equals(elseBody);
         }else{
             return false;
         }

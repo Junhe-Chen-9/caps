@@ -12,7 +12,7 @@ public class ExpStmt implements Stmt {
     public boolean equals(final Object other){
         if(other instanceof ExpStmt){
             final ExpStmt otherExpStmt = (ExpStmt) other;
-            return otherExpStmt.exp == exp;
+            return otherExpStmt.exp.equals(exp);
         }else{
             return false;
         }
