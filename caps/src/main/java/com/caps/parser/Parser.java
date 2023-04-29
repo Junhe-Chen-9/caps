@@ -83,13 +83,37 @@ public class Parser {
                         try{
                             return parseStmts(p);
                         }catch(final ParseException e5){
-                            return parseExpStmt(p);
+                            try{
+                                return parseExpStmt(p);
+                            }catch(final ParseException e6){
+                                return parseProgn(p);
+                            }
                         }
                     }
                 }
             }
         }
     } // parse Stmt
+
+    // progn ::= `{` `PROGON` statement* `}`
+    public ParseResult<Stmt> parseProgn(int p) throws ParseException {
+        assertTokenIs(p, new LeftBracketToken());
+        assertTokenIs(p + 1, new PrognToken());
+        final List<Stmt> stmts = new ArrayList<>();
+        boolean flag = true;
+        p += 2;
+        while(flag){
+            try{
+                final ParseResult<Stmt> stmt = parseStmt(p);
+                stmts.add(stmt.result);
+                p = stmt.nextP;
+            } catch(final ParseException e){
+                flag = false;
+            }
+        }
+        assertTokenIs(p, new RightBracketToken());
+        return new ParseResult<Stmt>(new ProgonStmt(stmts), p + 1);
+    }
 
     // parse single stmt
     public ParseResult<Stmt> parseExpStmt(int p) throws ParseException {
@@ -271,6 +295,7 @@ public class Parser {
      * Parse Variable
      */
     public ParseResult<Variable> parseVariable(final int p) throws ParseException {
+         
         try{
             return parseVars(p);
         }catch(ParseException e1){

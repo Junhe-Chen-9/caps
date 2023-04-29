@@ -1,2 +1,3 @@
 com/caps/AppTest.class
 com/caps/lexer/LexerTest.class
+com/caps/parser/ParserTest.class

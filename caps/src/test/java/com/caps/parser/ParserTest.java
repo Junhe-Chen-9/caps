@@ -217,6 +217,21 @@ public class ParserTest {
         assertEquals(new ParseResult<Variable>(new BlockVar(List.of(new SingleVariable("x"), new SingleVariable("y"))), 5),parser.parseVariable(0));
     }
 
+
+    // progn ::= `{` `PROGON` statement* `}`
+    @Test
+    public void testParseProgram() throws ParseException, TokenizerException {
+        final Token[] input = Tokenizer.tokenize("{ PROGON x IS 7;\n" +
+                                                 "WHILE ((x > 1)) x IS (x - 1); }");
+        final Parser parser = new Parser(input);
+        final List<Stmt> stmts = new ArrayList<Stmt>();
+        stmts.add(new VardecStmt(new SingleVariable("x"),new NumberLiteralExp(7)));
+        stmts.add(new WhileStmt(
+            new ArithmeticExp(new VariableExp(new SingleVariable("x")), new GreaterThanOp(), new NumberLiteralExp(1)),
+            new VardecStmt(new SingleVariable("x"),new ArithmeticExp(new VariableExp(new SingleVariable("x")), new MinusOp(), new NumberLiteralExp(1)))
+            ));
+        assertEquals(new ParseResult<Program>(new Program(new ProgonStmt(stmts)),23),parser.parseProgram(0));
+    }
 }
 
 

@@ -111,6 +111,7 @@ public class Tokenizer {
         KEYWORDS.put("TRUE",new TrueToken());
         KEYWORDS.put("FALSE",new FalseToken());
         KEYWORDS.put("CALL",new CallToken());
+        KEYWORDS.put("PROGON", new PrognToken());
         // we can do same thing for the key words that way it is easier to add and remove key words
 
     }
