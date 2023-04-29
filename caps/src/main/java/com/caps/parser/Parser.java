@@ -179,10 +179,10 @@ public class Parser {
     // exp ::= var | string | number variables, strings, and numbers are expressions
     public ParseResult<Exp> parseExp(final int p) throws ParseException {
         try {
-            return parseExpVar(p);
+            return parseArithmeticExpressions(p);
         } catch(final ParseException e1){
             try{
-                return parseArithmeticExpressions(p);
+                return parseExecuteExp(p);
             } catch(final ParseException e2){
                 try{
                     return parsePrint(p);
@@ -190,7 +190,7 @@ public class Parser {
                     try{
                         return parseCallExp(p);
                     } catch(final ParseException e4){
-                        return parseExecuteExp(p);
+                        return parseExpVar(p);
                     }
                 }
             }
@@ -199,7 +199,7 @@ public class Parser {
     
 
     // `(` vars `)` `EXECUTES` exp defines higher-order functions
-    public ParseResult<Exp> parseExecuteExp(int p ) throws ParseException{
+    public ParseResult<Exp> parseExecuteExp(final int p) throws ParseException{
         assertTokenIs(p, new LeftParenToken());
         ParseResult<Variable> var = parseVariable(p + 1);
         assertTokenIs(var.nextP, new RightParenToken());
@@ -238,17 +238,19 @@ public class Parser {
         return new ParseResult<Exp>(new PrintExp(exp.result), exp.nextP);
     }
 
-    private ParseResult<Exp> parseArithmeticExpressions(int p) throws ParseException{
-        ParseResult<Exp> exp1 = parseExp(p);
-        ParseResult<Op> op = parseOp(exp1.nextP); // assume op is going to be parsed correcttly for now
+    //`(` exp `)`
+    public ParseResult<Exp> parseArithmeticExpressions(final int p) throws ParseException{
+        assertTokenIs(p, new LeftParenToken());
+        ParseResult<Exp> exp1 = parseExp(p + 1);
+        ParseResult<Op> op = parseOp(exp1.nextP); // assume op is going to be parsed correcttly for now TODO: werid problem here
         ParseResult<Exp> exp2 = parseExp(op.nextP);
-        return new ParseResult<Exp>(new ArithmeticExp(exp1.result,op.result,exp2.result), exp2.nextP);
+        assertTokenIs(exp2.nextP, new RightParenToken());
+        return new ParseResult<Exp>(new ArithmeticExp(exp1.result,op.result,exp2.result), exp2.nextP + 1);
     }
 
     // exp :: = var | string | number
     public ParseResult<Exp> parseExpVar(final int p) throws ParseException{
         final Token token = getToken(p);
-
         if (token instanceof IdentifierToken) {
             return new ParseResult<Exp>(new VariableExp(new SingleVariable(((IdentifierToken) token).name)), p + 1);
         } else if (token instanceof StrToken) {
@@ -268,11 +270,14 @@ public class Parser {
      * Parse Variable
      */
     public ParseResult<Variable> parseVariable(final int p) throws ParseException {
+        /* 
         try{
             return parseVars(p);
         }catch(ParseException e1){
             return parseVar(p);
         }
+        */
+        return parseVar(p);
     }
 
     //vars ::= [var (`,` var)* ] list of variables
@@ -313,19 +318,14 @@ public class Parser {
     // type::= `STRING` | `NUMBER` | `BOOLEAN`
     public ParseResult<Type> parseType(final int p) throws ParseException {
         final Token token = getToken(p);
-
-        try{
-            return parseTypes(p);
-        } catch(ParseException e) {
-            if (token instanceof NumberToken) {
-                return new ParseResult<>(new NumberType(), p + 1);
-            } else if (token instanceof BooleanToken) {
-                return new ParseResult<>(new BoolType(), p + 1);
-            } else if (token instanceof StringToken) {
-                return new ParseResult<>(new StrType(), p + 1);
-            } else {
-                throw new ParseException("Expected type; received: " + token);
-            }
+        if (token instanceof NumberToken) {
+            return new ParseResult<Type>(new NumberType(), p + 1);
+        } else if (token instanceof BooleanToken) {
+            return new ParseResult<Type>(new BoolType(), p + 1);
+        } else if (token instanceof StringToken) {
+            return new ParseResult<Type>(new StrType(), p + 1);
+        } else {
+            throw new ParseException("Expected type; received: " + token);
         }
     }
 
@@ -351,6 +351,8 @@ public class Parser {
     /*
     * Parse Parameter
     */
+
+    /* TODO: fix this
     public ParseResult<Param> parseParameter(final int p) throws ParseException {
         try{
             return parseParams(p);
@@ -366,6 +368,7 @@ public class Parser {
         return new ParseResult<Param>(new Param(type.result, var.result), var.nextP);
     }
 
+   
     // params ::= [param (`,` param)*] list of parameters
     public ParseResult<Param> parseParams (int p) throws ParseException {
         boolean flag = true;
@@ -383,7 +386,7 @@ public class Parser {
         return new ParseResult<Param>(new BlockParam(params), p); //todo: fix this please!
     }
     // END OF PARAMETERS
-
+    */
 
 
 

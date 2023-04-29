@@ -1,12 +1,14 @@
 package com.caps.parser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BlockParam implements Parameter {
     public final List<Parameter> params;
 
     public BlockParam(final List<Param> types){
-        this.params = params;
+        //this.params = params;
+        params = new ArrayList<>();
     }
 
 

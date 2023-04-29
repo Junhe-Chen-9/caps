@@ -13,7 +13,7 @@ public class VardecStmt implements Stmt{
     public boolean equals(final Object other){
         if(other instanceof VardecStmt){
             final VardecStmt otherVardecStmt = (VardecStmt) other;
-            return otherVardecStmt.variable == variable && otherVardecStmt.exp == exp;
+            return otherVardecStmt.variable.equals(variable) && otherVardecStmt.exp.equals(exp);
         }else{
             return false;
         }

@@ -374,5 +374,11 @@ public class LexerTest {
         assertArrayEquals(expected,tokens);
     }
 
+    @Test
+    public void testReturns() throws TokenizerException{
+        final Token[] tokens = Tokenizer.tokenize("RETURNS 1;");
+        final Token[] expected = new Token[]{new ReturnsToken(), new IntToken(1),new SemicolonToken()};
+        assertArrayEquals(tokens,expected);
+    }
 }
 

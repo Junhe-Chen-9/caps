@@ -10,7 +10,7 @@ public class ReturnsStmt implements Stmt{
     public boolean equals(final Object other){
         if(other instanceof ReturnsStmt){
             final ReturnsStmt otherReturnsStmt = (ReturnsStmt) other;
-            return otherReturnsStmt.exp == exp;
+            return otherReturnsStmt.exp.equals(otherReturnsStmt.exp);
         }else{
             return false;
         }
