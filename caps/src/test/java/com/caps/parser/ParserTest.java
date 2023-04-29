@@ -42,6 +42,9 @@ public class ParserTest {
     }
 
    
+    /*
+     * Testing for parsing stmts
+     */
     
     // x IS 7
     @Test
@@ -81,13 +84,7 @@ public class ParserTest {
         assertEquals(new ParseResult<Op>(new PlusOp(),1),
                                           parser.parseOp(0));
     }
-    @Test
-    public void testparseArithmeticExpressions() throws ParseException, TokenizerException {
-        final Token[] input = Tokenizer.tokenize("(x + 1)");
-        final Parser parser = new Parser(input);
-        assertEquals(new ParseResult<Exp>(new ArithmeticExp(new VariableExp(new SingleVariable("x")), new PlusOp(), new NumberLiteralExp(1)),5),
-                                          parser.parseArithmeticExpressions(0));
-    }
+    
     
     // loop ::= `WHILE` `(` exp `)` stmt  loop statements
     @Test 
@@ -145,6 +142,18 @@ public class ParserTest {
             new ArithmeticExp(new VariableExp(new SingleVariable("x")), new GreaterThanOp(), new NumberLiteralExp(1)),
             new ReturnsStmt(new ArithmeticExp(new VariableExp(new SingleVariable("x")), new PlusOp(), new NumberLiteralExp(1))))
             ,15),parser.parseStmt(0));
+    }
+
+    /*
+     * Testing parsing Exp
+     */
+
+    @Test
+    public void testparseArithmeticExpressions() throws ParseException, TokenizerException {
+        final Token[] input = Tokenizer.tokenize("(x + 1)");
+        final Parser parser = new Parser(input);
+        assertEquals(new ParseResult<Exp>(new ArithmeticExp(new VariableExp(new SingleVariable("x")), new PlusOp(), new NumberLiteralExp(1)),5),
+                                          parser.parseArithmeticExpressions(0));
     }
 
 }
