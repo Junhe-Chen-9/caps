@@ -359,20 +359,25 @@ public class Parser {
         }
     }
 
-    // types::= [type (`,` type)*] list of types
+    // types::= {type (`,` type)*} list of types
     public ParseResult<Type> parseTypes(int p) throws ParseException {
+        assertTokenIs(p, new LeftBracketToken());
+        p ++;
         boolean flag = true;
         List<Type> types = new ArrayList<>();
         while(flag){
             try{
                 ParseResult<Type> typeCurr = parseType(p);
-                assertTokenIs(typeCurr.nextP, new CommaToken());
                 types.add(typeCurr.result);
+                p = typeCurr.nextP;
+                assertTokenIs(typeCurr.nextP, new CommaToken());
                 p = typeCurr.nextP + 1;
             }catch(ParseException e){
                 flag = false;
             }
         }
+        assertTokenIs(p, new RightBracketToken());
+        p ++;
         return new ParseResult<Type>(new BlockType(types), p);
     }
     // END OF TYPES
@@ -382,8 +387,8 @@ public class Parser {
     * Parse Parameter
     */
 
-    /* TODO: fix this
-    public ParseResult<Param> parseParameter(final int p) throws ParseException {
+
+    public ParseResult<Parameter> parseParameter(final int p) throws ParseException {
         try{
             return parseParams(p);
         }catch(ParseException e1){
@@ -392,31 +397,35 @@ public class Parser {
     }
 
     // param::= type var
-    public ParseResult<Param> parseParam(final int p) throws ParseException {
+    public ParseResult<Parameter> parseParam(final int p) throws ParseException {
         ParseResult<Type> type = parseType(p);
-        ParseResult<Variable> var = parseVar(p + 1);
-        return new ParseResult<Param>(new Param(type.result, var.result), var.nextP);
+        ParseResult<Variable> var = parseVariable(type.nextP);
+        return new ParseResult<Parameter>(new Param(type.result, var.result), var.nextP);
     }
 
    
-    // params ::= [param (`,` param)*] list of parameters
-    public ParseResult<Param> parseParams (int p) throws ParseException {
+    // params ::= {param (`,` param)* }list of parameters
+    public ParseResult<Parameter> parseParams (int p) throws ParseException {
+        assertTokenIs(p, new LeftBracketToken());
+        p ++;
         boolean flag = true;
-        List<Param> params = new ArrayList<>();
+        List<Parameter> params = new ArrayList<>();
         while (flag) {
             try {
-                ParseResult<Param> paramCurr = parseParam(p);
-                assertTokenIs(paramCurr.nextP, new CommaToken());
+                ParseResult<Parameter> paramCurr = parseParameter(p);
                 params.add(paramCurr.result);
+                p = paramCurr.nextP;
+                assertTokenIs(paramCurr.nextP, new CommaToken());
                 p = paramCurr.nextP + 1;
+                
             } catch (ParseException e) {
                 flag = false;
             }
         }
-        return new ParseResult<Param>(new BlockParam(params), p); //todo: fix this please!
+        return new ParseResult<Parameter>(new BlockParam(params), p); //todo: fix this please!
     }
     // END OF PARAMETERS
-    */
+
 
 
 
