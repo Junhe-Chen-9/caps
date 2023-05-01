@@ -217,6 +217,29 @@ public class ParserTest {
         assertEquals(new ParseResult<Variable>(new BlockVar(List.of(new SingleVariable("x"), new SingleVariable("y"))), 5),parser.parseVariable(0));
     }
 
+    @Test
+    public void testparseMinusOp() throws ParseException, TokenizerException {
+        final Token[] input = Tokenizer.tokenize("(x - 2)");
+        final Parser parser = new Parser(input);
+        assertEquals(new ParseResult<Exp>(new ArithmeticExp(new VariableExp(new SingleVariable("x")), new MinusOp(), new NumberLiteralExp(2)),5),
+                parser.parseArithmeticExpressions(0));
+    }
+
+    @Test
+    public void testparseMultOp() throws ParseException, TokenizerException {
+        final Token[] input = Tokenizer.tokenize("(y * 3)");
+        final Parser parser = new Parser(input);
+        assertEquals(new ParseResult<Exp>(new ArithmeticExp(new VariableExp(new SingleVariable("y")), new MultOp(), new NumberLiteralExp(3)),5),
+                parser.parseArithmeticExpressions(0));
+    }
+
+    @Test
+    public void testparseDivideOp() throws ParseException, TokenizerException {
+        final Token[] input = Tokenizer.tokenize("(z / 10)");
+        final Parser parser = new Parser(input);
+        assertEquals(new ParseResult<Exp>(new ArithmeticExp(new VariableExp(new SingleVariable("z")), new DivideOp(), new NumberLiteralExp(10)),5),
+                parser.parseArithmeticExpressions(0));
+    }
 
     // progn ::= `{` `PROGON` statement* `}`
     @Test
