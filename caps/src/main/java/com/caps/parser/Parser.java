@@ -422,67 +422,31 @@ public class Parser {
                 flag = false;
             }
         }
-        return new ParseResult<Parameter>(new BlockParam(params), p); //todo: fix this please!
+        return new ParseResult<Parameter>(new BlockParam(params), p);
     }
     // END OF PARAMETERS
 
 
 
 
+    // MethodDef ::= `DEFINE` type methodName `(` params `)` `{` stmt* `}`
+    public ParseResult<Stmt> parseMethodDef2(final int p) throws ParseException {
+        assertTokenIs(p, new DefineToken());
+        final ParseResult<Type> type = parseType(p + 1);
+        final ParseResult<Variable> methodName = parseVariable(type.nextP);
+        assertTokenIs(methodName.nextP, new LeftParenToken());
+        final ParseResult<Parameter> params = parseParameter(methodName.nextP + 1);
+        assertTokenIs(params.nextP, new RightParenToken());
+        assertTokenIs(params.nextP + 1, new LeftBracketToken());
+        final ParseResult<Stmt> stmt = parseStmt(params.nextP + 2);
+        assertTokenIs(stmt.nextP, new RightBracketToken());
+
+        return new ParseResult<Stmt>(new MethodDefStmt(type.result, methodName.result,
+                params.result, stmt.result), stmt.nextP + 1);
+    } // parse MethodDef
 
 
 
-
-    
-
-    
-
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /* Example from meeting with prof
-    exps:=[exp(`,`exp)*]
-    exp::= IDENTIFIER | IDENTIFIER `(` exps `)`
-    stmt ::= `while` `(` exp `)` `{` stmt* `}` |
-        `if `(` exp `)` stmt `else` stmt |
-        IDENTIFIER `=` exp `;` |
-        exp `;`
-
-    public ParseResult<Stmt> parseStmt(final int p) throws ParseException {
-        final Token token = getToken(p);
-
-        try{
-            assertTokenIs(getToken(p), new WhileToken());
-            assertTokenIs(getToken(p +1), new LeftParenToken());
-            final ParseResult<Exp> guard = parseExp(p + 2);
-            ...
-            return new ParseResult<Stmt>(new WhileStmt(...), ...);
-        }
-        catch (final ParseException e) {... }
-        try {
-            if (token instanceof identifierToken){
-                assertTokenIs(getToken(p + 1), new EqualsToken());
-            }
-        }
-        catch (final ParseException e) {...}
-    }
-     */
 
 
 
