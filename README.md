@@ -5,27 +5,31 @@ var is a variable
 string is a string
 number is a number (integer or double)
 methodname is the name of a method
-vars ::= [var (`,` var)* ] list of variables
-type::= `BOOLEAN` | `NUMBER` | `STRING` built-in datatypes 
-        `(` types `)` `RETURNS` type higher-order function type
-types::= [type (`,` type)*] list of types
-op ::= `+` | `-` | `*` | `/` |  arithmetic operations
-        `&&` | `||` |  logical operations
-         `<` | `>`   comparison operations
-exp ::= var | string | number variables, strings, and numbers are expressions
-	    exp op exp arithmetic expressions
-	    `PRINT` exp prints to the terminal, returns a number
-	    `CALL` exp `(` exps `)` calls higher-order function with parameters
-        `(` vars `)` `EXECUTES` exp defines higher-order functions
-        `(` exp `)` parenthesized expressions 
-stmt ::= exp`;` | var `IS` exp`;` | `RETURNS` exp`;` | 
-        `{` stmt* `}`|  statement blocks 
-        `IF` `(` exp `)` stmt `ELSE` `stmt` | if-else statements
-        `WHILE` `(` exp `)` stmt  loop statements
-param::= type var
-params ::= [param (`,` param)*] list of parameters
-Methoddef ::= `DEFINE` type methodname `(` params `)` `{` stmt* `}`
-Program ::= methoddef* exp entry point	
+
+program ::= stmt                                        // entry point
+vars ::= [var (`,` var)* ]                              // list of variables
+type ::= `BOOLEAN` | `NUMBER` | `STRING` |              // built-in datatypes 
+        `(` types `)` `RETURNS` type                    // higher-order function type
+types ::= [type (`,` type)*]                            // list of types
+param ::= type var
+params ::= [param (`,` param)*]                         // list of parameters 
+op ::= `+` | `-` | `*` | `/` |                          // arithmetic operators
+        `&&` | `||` |                                   // logical operators
+         `<` | `>`                                      // comparison operators
+exp ::= var | string | number |                         // variables, strings, and numbers are expressions
+	    `(` exp op exp `)` |                            // arithmetic expressions
+        `(` vars `)` `EXECUTES` exp |                   // defines higher-order functions (execute)
+        `PRINT` exp                                     // prints to terminal, returns a number (print)
+	    `CALL` exp `(` exps `)` |                       // calls higher-order function (call)
+stmt ::= var `IS` exp`;` |                              // variable declaration (vardec)
+        `RETURNS` exp`;` |                              // return statement (returns)
+        `WHILE` `(` exp `)` |                           // loop statement (loop)
+        `IF` `(` exp `)` stmt `ELSE` `stmt`             // if-else statement (if)
+        `{` stmt* `}`|                                  // block statements (stmts)
+        `DEFINE` type methodname `(` params `)` `{` stmt* `}`   // method declaration (methoddef)
+        `{` `PROGN` stmt* `}`                           
+        exp`;` |                                        // expression statement (expstmt)
+
 ```
 Object language (Our language): Caps
 Metalanguage : Java
