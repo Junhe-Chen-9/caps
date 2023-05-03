@@ -17,10 +17,10 @@ op ::= `+` | `-` | `*` | `/` |                          // arithmetic operators
         `&&` | `||` |                                   // logical operators
          `<` | `>`                                      // comparison operators
 exp ::= var | string | number |                         // variables, strings, and numbers are expressions
-	    `(` exp op exp `)` |                            // arithmetic expressions
+	`(` exp op exp `)` |                            // arithmetic expressions
         `(` vars `)` `EXECUTES` exp |                   // defines higher-order functions (execute)
         `PRINT` exp                                     // prints to terminal, returns a number (print)
-	    `CALL` exp `(` exps `)` |                       // calls higher-order function (call)
+	`CALL` exp `(` exps `)` |                       // calls higher-order function (call)
 stmt ::= var `IS` exp`;` |                              // variable declaration (vardec)
         `RETURNS` exp`;` |                              // return statement (returns)
         `WHILE` `(` exp `)` |                           // loop statement (loop)
@@ -29,7 +29,6 @@ stmt ::= var `IS` exp`;` |                              // variable declaration 
         `DEFINE` type methodname `(` params `)` `{` stmt* `}`   // method declaration (methoddef)
         `{` `PROGN` stmt* `}`                           
         exp`;` |                                        // expression statement (expstmt)
-
 ```
 Object language (Our language): Caps
 Metalanguage : Java
