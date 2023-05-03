@@ -13,7 +13,7 @@ public class Param implements Parameter{
     public boolean equals(final Object other){
         if(other instanceof Param){
             final Param otherParam = (Param) other;
-            return otherParam.type == type && otherParam.var == var;
+            return otherParam.type.equals(type) && otherParam.var.equals(var);
         }else{
             return false;
         }

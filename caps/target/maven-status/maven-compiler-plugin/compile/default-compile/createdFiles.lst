@@ -52,6 +52,7 @@ com/caps/parser/StrType.class
 com/caps/lexer/NumberToken.class
 com/caps/lexer/LeftParenToken.class
 com/caps/parser/LessThanOp.class
+com/caps/parser/MethodDefStmt.class
 com/caps/lexer/AsteriskToken.class
 com/caps/parser/ExecuteExp.class
 com/caps/lexer/TrueToken.class

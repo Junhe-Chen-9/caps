@@ -255,6 +255,58 @@ public class ParserTest {
             ));
         assertEquals(new ParseResult<Program>(new Program(new ProgonStmt(stmts)),23),parser.parseProgram(0));
     }
+
+
+
+    // MethodDef ::= `DEFINE` type methodName `(` params `)` `{` stmt* `}`
+    @Test 
+    public void testparseMethodDef2() throws ParseException, TokenizerException {
+        final Token[] input = Tokenizer.tokenize("DEFINE NUMBER addOne (NUMBER x) {(x + 1);}");
+        final Parser parser = new Parser(input);
+        assertEquals(new ParseResult<Stmt>(new MethodDefStmt(new NumberType(), new SingleVariable("addOne"), new Param(new NumberType(), new SingleVariable("x")), 
+        new ExpStmt(new ArithmeticExp(new VariableExp(new SingleVariable("x")), new PlusOp(), new NumberLiteralExp(1))))
+            ,15),
+                parser.parseMethodDef2(0));
+    }
+
+    @Test
+    public void testParseParam() throws ParseException, TokenizerException {
+        final Token[] input = new Token[]{new NumberToken(), new IdentifierToken("x")};
+        final Parser parser = new Parser(input);
+        assertEquals(new ParseResult<>(new Param(new NumberType(), new SingleVariable("x")), 2),
+                parser.parseParam(0));
+    }
+
+    @Test
+    public void testParseParams() throws ParseException, TokenizerException {
+        final Token[] input = new Token[]{new LeftBracketToken(),new NumberToken(), new IdentifierToken("x"),new CommaToken(),new NumberToken(), new IdentifierToken("y"),new RightBracketToken()};
+        final Parser parser = new Parser(input);
+        assertEquals(new ParseResult<>(new BlockParam(List.of(new Param(new NumberType(), new SingleVariable("x")),new Param(new NumberType(), new SingleVariable("y")))), 7),
+                parser.parseParameter(0));
+    }
+
+    @Test
+    public void testParsetypes() throws ParseException, TokenizerException {
+        final Token[] input = new Token[]{new LeftBracketToken(),new NumberToken(),new CommaToken(),new StrToken(),new RightBracketToken()};
+        final Parser parser = new Parser(input);
+        assertEquals(new ParseResult<>(new BlockType(List.of(new NumberType(),new StrType())), 5),
+                parser.parseTypes(0));
+    }
+
+    // progn ::= `{` `PROGON` statement* `}`
+    @Test
+    public void testParseProgram1() throws ParseException, TokenizerException {
+        final Token[] input = Tokenizer.tokenize("{ PROGON x IS 7;\n" +
+                                                 "WHILE ((x > 1)) x IS (x - 1); }");
+
+        final List<Stmt> stmts = new ArrayList<Stmt>();
+        stmts.add(new VardecStmt(new SingleVariable("x"),new NumberLiteralExp(7)));
+        stmts.add(new WhileStmt(
+            new ArithmeticExp(new VariableExp(new SingleVariable("x")), new GreaterThanOp(), new NumberLiteralExp(1)),
+            new VardecStmt(new SingleVariable("x"),new ArithmeticExp(new VariableExp(new SingleVariable("x")), new MinusOp(), new NumberLiteralExp(1)))
+            ));
+        assertEquals(new Program(new ProgonStmt(stmts)),Parser.parseProgram(input));
+    }
 }
 
 

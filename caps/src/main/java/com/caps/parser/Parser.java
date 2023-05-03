@@ -86,7 +86,11 @@ public class Parser {
                             try{
                                 return parseExpStmt(p);
                             }catch(final ParseException e6){
-                                return parseProgn(p);
+                                try{
+                                    return parseMethodDef2(p);
+                                }catch( final ParseException e7){
+                                    return parseProgn(p);
+                                }
                             }
                         }
                     }
@@ -352,7 +356,7 @@ public class Parser {
             return new ParseResult<Type>(new NumberType(), p + 1);
         } else if (token instanceof BooleanToken) {
             return new ParseResult<Type>(new BoolType(), p + 1);
-        } else if (token instanceof StringToken) {
+        } else if (token instanceof StrToken) {
             return new ParseResult<Type>(new StrType(), p + 1);
         } else {
             throw new ParseException("Expected type; received: " + token);
@@ -422,6 +426,7 @@ public class Parser {
                 flag = false;
             }
         }
+        assertTokenIs(p++, new RightBracketToken());
         return new ParseResult<Parameter>(new BlockParam(params), p);
     }
     // END OF PARAMETERS

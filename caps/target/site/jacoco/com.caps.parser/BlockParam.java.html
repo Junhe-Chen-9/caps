@@ -6,17 +6,17 @@ import java.util.List;
 public class BlockParam implements Parameter {
     public final List&lt;Parameter&gt; params;
 
-<span class="nc" id="L9">    public BlockParam(final List&lt;Param&gt; types){</span>
-        //this.params = params;
-<span class="nc" id="L11">        params = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L12">    }</span>
+<span class="fc" id="L9">    public BlockParam(final List&lt;Parameter&gt; params){</span>
+<span class="fc" id="L10">        this.params = params;</span>
+        //params = new ArrayList&lt;&gt;();
+<span class="fc" id="L12">    }</span>
 
 
 
     @Override
     public boolean equals(final Object other) {
-<span class="nc bnc" id="L18" title="All 2 branches missed.">        return (other instanceof BlockParam &amp;&amp;</span>
-<span class="nc bnc" id="L19" title="All 2 branches missed.">                params.equals(((BlockParam)other).params));</span>
+<span class="pc bpc" id="L18" title="1 of 2 branches missed.">        return (other instanceof BlockParam &amp;&amp;</span>
+<span class="pc bpc" id="L19" title="1 of 2 branches missed.">                params.equals(((BlockParam)other).params));</span>
     }
 
     @Override

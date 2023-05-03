@@ -25,7 +25,7 @@ public class ExpStmt implements Stmt {
 
     @Override
     public String toString() {
-        return "IfElseStmt{" +
+        return "expression statement{" +
                 "exp=" + exp +
                 '}';
     }

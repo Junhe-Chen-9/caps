@@ -4,16 +4,16 @@ public class Param implements Parameter{
     public final Type type;
     public final Variable var;
 
-<span class="nc" id="L7">    public Param(final Type type, Variable var){</span>
-<span class="nc" id="L8">        this.type = type;</span>
-<span class="nc" id="L9">        this.var = var;</span>
-<span class="nc" id="L10">    }</span>
+<span class="fc" id="L7">    public Param(final Type type, Variable var){</span>
+<span class="fc" id="L8">        this.type = type;</span>
+<span class="fc" id="L9">        this.var = var;</span>
+<span class="fc" id="L10">    }</span>
 
     @Override
     public boolean equals(final Object other){
-<span class="nc bnc" id="L14" title="All 2 branches missed.">        if(other instanceof Param){</span>
-<span class="nc" id="L15">            final Param otherParam = (Param) other;</span>
-<span class="nc bnc" id="L16" title="All 4 branches missed.">            return otherParam.type == type &amp;&amp; otherParam.var == var;</span>
+<span class="pc bpc" id="L14" title="1 of 2 branches missed.">        if(other instanceof Param){</span>
+<span class="fc" id="L15">            final Param otherParam = (Param) other;</span>
+<span class="pc bpc" id="L16" title="2 of 4 branches missed.">            return otherParam.type.equals(type) &amp;&amp; otherParam.var.equals(var);</span>
         }else{
 <span class="nc" id="L18">            return false;</span>
         }

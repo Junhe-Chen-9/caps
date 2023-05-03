@@ -5,14 +5,14 @@ import java.util.List;
 public class BlockType implements Type {
     public final List&lt;Type&gt; types;
 
-<span class="nc" id="L8">    public BlockType(final List&lt;Type&gt; types){</span>
-<span class="nc" id="L9">        this.types = types;</span>
-<span class="nc" id="L10">    }</span>
+<span class="fc" id="L8">    public BlockType(final List&lt;Type&gt; types){</span>
+<span class="fc" id="L9">        this.types = types;</span>
+<span class="fc" id="L10">    }</span>
 
     @Override
     public boolean equals(final Object other) {
-<span class="nc bnc" id="L14" title="All 2 branches missed.">        return (other instanceof BlockType &amp;&amp;</span>
-<span class="nc bnc" id="L15" title="All 2 branches missed.">                types.equals(((BlockType)other).types));</span>
+<span class="pc bpc" id="L14" title="1 of 2 branches missed.">        return (other instanceof BlockType &amp;&amp;</span>
+<span class="pc bpc" id="L15" title="1 of 2 branches missed.">                types.equals(((BlockType)other).types));</span>
     }
 
     @Override
